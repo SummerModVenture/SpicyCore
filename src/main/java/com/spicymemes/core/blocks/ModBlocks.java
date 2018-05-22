@@ -1,6 +1,6 @@
-package com.spicymemes.common.blocks;
+package com.spicymemes.core.blocks;
 
-import com.spicymemes.common.MainMod;
+import com.spicymemes.core.MainMod;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -10,7 +10,6 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.lwjgl.Sys;
 
 /**
  * Created by Spencer on 5/22/18.
@@ -18,7 +17,7 @@ import org.lwjgl.Sys;
 @Mod.EventBusSubscriber(modid= MainMod.MODID)
 public class ModBlocks {
 
-    static Block testBlock;
+    public static Block testBlock;
 
     public static void init() {
         testBlock = new TestBlock();

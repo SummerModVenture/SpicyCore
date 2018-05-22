@@ -1,6 +1,7 @@
-package com.spicymemes.common;
+package com.spicymemes.core;
 
-import com.spicymemes.common.blocks.ModBlocks;
+import com.spicymemes.core.blocks.ModBlocks;
+import com.spicymemes.core.worldgen.ModGenerators;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -21,6 +22,7 @@ public class MainMod
     public void preInit(FMLPreInitializationEvent event)
     {
         ModBlocks.init();
+        ModGenerators.init();
         logger = event.getModLog();
     }
 

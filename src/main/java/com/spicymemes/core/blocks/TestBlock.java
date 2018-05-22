@@ -1,4 +1,4 @@
-package com.spicymemes.common.blocks;
+package com.spicymemes.core.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
