@@ -23,9 +23,10 @@ public class RecipesBase {
      * @param output The output item stack
      * @param exp The experience reward to give the player
      */
-    public void add(ItemStack input, ItemStack output, float exp) {
+    public RecipesBase add(ItemStack input, ItemStack output, float exp) {
         recipes.put(input, output);
         expReward.put(input, exp);
+        return this;
     }
 
     /**
@@ -34,8 +35,8 @@ public class RecipesBase {
      * @param output The output item stack
      * @param exp The experience reward to give the player
      */
-    public void add(Item input, ItemStack output, float exp) {
-        add(new ItemStack(input, 1, IGNORE_META), output, exp);
+    public RecipesBase add(Item input, ItemStack output, float exp) {
+        return add(new ItemStack(input, 1, IGNORE_META), output, exp);
     }
 
     /**
@@ -44,8 +45,8 @@ public class RecipesBase {
      * @param output The output item stack
      * @param exp The experience reward to give the player
      */
-    public void add(Block input, ItemStack output, float exp) {
-        add(Item.getItemFromBlock(input), output, exp);
+    public RecipesBase add(Block input, ItemStack output, float exp) {
+        return add(Item.getItemFromBlock(input), output, exp);
     }
 
     private static boolean compare(ItemStack input, ItemStack recipe) {

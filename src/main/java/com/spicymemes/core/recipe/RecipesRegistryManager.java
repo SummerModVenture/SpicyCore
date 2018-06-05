@@ -24,13 +24,13 @@ public class RecipesRegistryManager {
      * Gets a recipe registry from the registry manager
      * @param modId The mod id of the registry
      * @param registryName The name of the registry
-     * @return The registry
+     * @return The registry, or null if it isn't found
      */
     public static RecipesBase getRegistry(String modId, String registryName) {
         String name = createRegistryName(modId, registryName);
         if (registries.containsKey(name)) {
             return registries.get(name);
         }
-        throw new NoSuchElementException("Couldn't find recipe registry '" + name + "'");
+        return null;
     }
 }
