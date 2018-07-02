@@ -1,8 +1,5 @@
 package com.spicymemes.core;
 
-import com.spicymemes.core.blocks.ModBlocks;
-import com.spicymemes.core.worldgen.ModGenerators;
-import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -19,17 +16,11 @@ public class MainMod
     private static Logger logger;
 
     @EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
-        ModBlocks.init();
-        ModGenerators.init();
+    public void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
     }
 
     @EventHandler
-    public void init(FMLInitializationEvent event)
-    {
-        // some example code
-        logger.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+    public void init(FMLInitializationEvent event) {
     }
 }

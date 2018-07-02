@@ -1,6 +1,5 @@
 package com.spicymemes.core.worldgen;
 
-import com.spicymemes.core.blocks.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
@@ -15,8 +14,9 @@ import java.util.Random;
 
 /**
  * Created by Spencer on 5/22/18.
+ * Updated by Cameron on 7/2/2018
  */
-public class OreGenerator implements IWorldGenerator {
+public abstract class OreGenerator implements IWorldGenerator {
     Block b;
     Predicate<IBlockState> repl;
     int did, vs, vc, miny, maxy;
@@ -31,18 +31,22 @@ public class OreGenerator implements IWorldGenerator {
         repl = replacement;
     }
 
-    @Override
-    public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-        switch (world.provider.getDimension()){
-            case 0: genSurface(world, random, chunkX, chunkZ);
-        }
-    }
-
-    private void genSurface(World world, Random random, int chunkX, int chunkZ){
-        addOreSpawn(ModBlocks.testBlock.getDefaultState(), world, random, chunkX * 16, chunkZ * 16, 16, 16, vs, vc, miny, maxy, this.repl);
-    }
-
-    private void addOreSpawn(IBlockState block, World world, Random random, int blockXPos, int blockZPos, int maxX, int maxZ, int maxVeinSize, int chance, int minY, int maxY, Predicate<IBlockState> blockToSpawnIn){
+    /**
+     * Generates an ore of the given block with the given parameters
+     * @param block
+     * @param world
+     * @param random
+     * @param blockXPos
+     * @param blockZPos
+     * @param maxX
+     * @param maxZ
+     * @param maxVeinSize
+     * @param chance
+     * @param minY
+     * @param maxY
+     * @param blockToSpawnIn
+     */
+    protected void addOreSpawn(IBlockState block, World world, Random random, int blockXPos, int blockZPos, int maxX, int maxZ, int maxVeinSize, int chance, int minY, int maxY, Predicate<IBlockState> blockToSpawnIn){
         int diffMinMaxY = maxY - minY;
         for(int x = 0; x < chance; x++){
             int posX = blockXPos + random.nextInt(maxX);
