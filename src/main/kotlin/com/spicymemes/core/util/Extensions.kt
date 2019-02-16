@@ -63,9 +63,18 @@ inline fun serverOnly(action: () -> Unit) {
     if (FMLCommonHandler.instance().effectiveSide == Side.SERVER)
         action()
 }
+inline fun serverOnly(world: World, action: () -> Unit) {
+    if (!world.isRemote)
+        action()
+}
 
 inline fun clientOnly(action: () -> Unit) {
     if (FMLCommonHandler.instance().effectiveSide == Side.CLIENT)
+        action()
+}
+
+inline fun clientOnly(world: World, action: () -> Unit) {
+    if (world.isRemote)
         action()
 }
 
