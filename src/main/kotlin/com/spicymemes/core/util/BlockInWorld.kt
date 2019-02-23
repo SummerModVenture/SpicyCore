@@ -5,7 +5,6 @@ import net.minecraft.block.state.IBlockState
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-
 /**
  * Helper class for packaging world/block/state in one object
  */
