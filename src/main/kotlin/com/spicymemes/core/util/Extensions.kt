@@ -1,3 +1,5 @@
+@file:JvmName("Extensions")
+
 package com.spicymemes.core.util
 
 import net.minecraft.block.Block
