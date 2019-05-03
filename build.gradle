@@ -13,7 +13,7 @@ apply plugin: 'kotlin'
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 
-version = "1.0.5"
+version = "1.0.6"
 group = "com.spicymemes.core"
 archivesBaseName = "spicycore"
 
