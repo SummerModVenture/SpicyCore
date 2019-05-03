@@ -1,3 +1,5 @@
+@file:JvmName("Extensions")
+
 package com.spicymemes.core.util
 
 import net.minecraft.block.Block
@@ -19,12 +21,10 @@ var Block.codename: String
     get() = unlocalizedName
     set(value) = Unit.apply { setUnlocalizedName(value).setRegistryName(value) }
 
-@Deprecated("Use var property", ReplaceWith("codename"))
 fun Item.setCodename(name: String): Item {
     return setUnlocalizedName(name).setRegistryName(name)
 }
 
-@Deprecated("Use var property", ReplaceWith("codename"))
 fun Block.setCodename(name: String): Block {
     return setUnlocalizedName(name).setRegistryName(name)
 }

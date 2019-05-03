@@ -1,3 +1,5 @@
+@file:JvmName("VanillaSlotSets")
+
 package com.spicymemes.core.gui.slots
 
 import net.minecraft.entity.player.InventoryPlayer
