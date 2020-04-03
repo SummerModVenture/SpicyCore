@@ -4,7 +4,16 @@ package com.spicymemes.core.network
 
 import com.spicymemes.core.MainMod
 import com.spicymemes.core.network.packets.*
+import net.minecraft.util.ResourceLocation
+import net.minecraftforge.fml.network.NetworkRegistry
 import net.minecraftforge.fml.network.simple.*
+
+fun newSimpleChannel(version: String, modId: String, name: String = "main") = NetworkRegistry.newSimpleChannel(
+        ResourceLocation(modId, name),
+        { version },
+        version::equals,
+        version::equals
+)
 
 @Suppress("INACCESSIBLE_TYPE")
 inline fun <reified MSG : SpicyPacket> SimpleChannel.registerPacket(
