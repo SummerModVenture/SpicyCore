@@ -1,0 +1,14 @@
+modLoader="javafml"
+loaderVersion="[31,)"
+issueTrackerURL="http://my.issue.tracker/"
+
+[[mods]]
+
+modId="spicycore"
+version="${file.jarVersion}"
+displayName="Spicy Core"
+credits="Dank memes"
+authors="vtsman, came20, ninjabou, tacoguy56, masterzach32"
+description='''
+	The spiciest core.
+'''

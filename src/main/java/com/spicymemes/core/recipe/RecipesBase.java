@@ -12,7 +12,6 @@ import java.util.function.BiConsumer;
  * Represents a registry for single input, single output recipes.
  */
 public class RecipesBase {
-    public static final int IGNORE_META = 32767;
 
     private HashMap<ItemStack, ItemStack> recipes = new HashMap<>();
     private HashMap<ItemStack, Float> expReward = new HashMap<>();
@@ -36,7 +35,7 @@ public class RecipesBase {
      * @param exp The experience reward to give the player
      */
     public RecipesBase add(Item input, ItemStack output, float exp) {
-        return add(new ItemStack(input, 1, IGNORE_META), output, exp);
+        return add(new ItemStack(input, 1), output, exp);
     }
 
     /**
@@ -46,12 +45,11 @@ public class RecipesBase {
      * @param exp The experience reward to give the player
      */
     public RecipesBase add(Block input, ItemStack output, float exp) {
-        return add(Item.getItemFromBlock(input), output, exp);
+        return add(input.asItem(), output, exp);
     }
 
     private static boolean compare(ItemStack input, ItemStack recipe) {
-        return input.getItem() == recipe.getItem() &&
-                (recipe.getMetadata() == IGNORE_META || input.getMetadata() == recipe.getMetadata());
+        return input.getItem() == recipe.getItem();
     }
 
     /**
