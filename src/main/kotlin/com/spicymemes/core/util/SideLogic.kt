@@ -2,17 +2,16 @@
 
 package com.spicymemes.core.util
 
-import net.minecraft.world.World
-import net.minecraftforge.fml.LogicalSide
-import net.minecraftforge.fml.ModList
-import net.minecraftforge.fml.common.thread.EffectiveSide
+import net.minecraft.world.*
+import net.minecraftforge.fml.*
+import net.minecraftforge.fml.common.thread.*
 
 inline fun serverOnly(action: () -> Unit) {
     if (EffectiveSide.get() == LogicalSide.SERVER)
         action()
 }
 
-inline fun serverOnly(world: World, action: () -> Unit) {
+inline fun serverOnly(world: IWorld, action: () -> Unit) {
     if (!world.isRemote)
         action()
 }
@@ -22,7 +21,7 @@ inline fun clientOnly(action: () -> Unit) {
         action()
 }
 
-inline fun clientOnly(world: World, action: () -> Unit) {
+inline fun clientOnly(world: IWorld, action: () -> Unit) {
     if (world.isRemote)
         action()
 }

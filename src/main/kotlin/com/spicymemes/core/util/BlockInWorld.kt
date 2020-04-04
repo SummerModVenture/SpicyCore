@@ -1,9 +1,8 @@
 package com.spicymemes.core.util
 
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
+import net.minecraft.block.*
+import net.minecraft.util.math.*
+import net.minecraft.world.*
 
 /**
  * Helper class for packaging world/block/state in one object

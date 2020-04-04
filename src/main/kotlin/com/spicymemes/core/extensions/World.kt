@@ -2,8 +2,8 @@
 
 package com.spicymemes.core.extensions
 
-import com.spicymemes.core.util.BlockInWorld
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
+import com.spicymemes.core.util.*
+import net.minecraft.util.math.*
+import net.minecraft.world.*
 
 fun World.getBlock(pos: BlockPos) = BlockInWorld(this, pos)
