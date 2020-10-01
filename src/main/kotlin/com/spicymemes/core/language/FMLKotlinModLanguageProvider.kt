@@ -10,6 +10,7 @@ import org.objectweb.asm.Type
 import java.util.function.Consumer
 import java.util.function.Supplier
 
+@Deprecated("")
 class FMLKotlinModLanguageProvider : IModLanguageProvider {
 
     private class FMLModTarget(val className: String, val modId: String) : IModLanguageProvider.IModLanguageLoader {
