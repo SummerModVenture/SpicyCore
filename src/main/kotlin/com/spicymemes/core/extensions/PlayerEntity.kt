@@ -3,6 +3,12 @@ package com.spicymemes.core.extensions
 import net.minecraft.client.entity.player.*
 import net.minecraft.entity.player.*
 
-fun PlayerEntity.toServerPlayerEntity(): ServerPlayerEntity = this as ServerPlayerEntity
+@Deprecated("", ReplaceWith("asServerPlayerEntity()"))
+fun PlayerEntity.toServerPlayerEntity(): ServerPlayerEntity = asServerPlayerEntity()
 
-fun PlayerEntity.toClientPlayerEntity(): ClientPlayerEntity = this as ClientPlayerEntity
+fun PlayerEntity.asServerPlayerEntity(): ServerPlayerEntity = this as ServerPlayerEntity
+
+@Deprecated("", ReplaceWith("asClientPlayerEntity()"))
+fun PlayerEntity.toClientPlayerEntity(): ClientPlayerEntity = asClientPlayerEntity()
+
+fun PlayerEntity.asClientPlayerEntity(): ClientPlayerEntity = this as ClientPlayerEntity

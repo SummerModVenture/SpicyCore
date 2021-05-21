@@ -14,10 +14,10 @@ interface SpicyPacketHandler<MSG : SpicyPacket> {
 
     fun handle(message: MSG, ctxSupplier: Supplier<NetworkEvent.Context>) {
         ctxSupplier.get().also { ctx ->
-            ctx.enqueueWork(Runnable {
+            ctx.enqueueWork {
                 process(message, ctx)
                 ctx.packetHandled = true
-            })
+            }
         }
     }
 }

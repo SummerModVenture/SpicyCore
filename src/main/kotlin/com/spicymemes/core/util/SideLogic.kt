@@ -12,7 +12,7 @@ inline fun serverOnly(action: () -> Unit) {
 }
 
 inline fun serverOnly(world: IWorld, action: () -> Unit) {
-    if (!world.isRemote)
+    if (!world.isClientSide)
         action()
 }
 
@@ -22,7 +22,7 @@ inline fun clientOnly(action: () -> Unit) {
 }
 
 inline fun clientOnly(world: IWorld, action: () -> Unit) {
-    if (world.isRemote)
+    if (world.isClientSide)
         action()
 }
 

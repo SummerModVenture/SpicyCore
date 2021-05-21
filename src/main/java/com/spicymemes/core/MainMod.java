@@ -8,6 +8,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ExtensionPoint;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -15,12 +17,16 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.network.FMLNetworkConstants;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.stream.Collectors;
+
+import static net.minecraftforge.fml.ExtensionPoint.DISPLAYTEST;
 
 @Mod(MainMod.MODID)
 public class MainMod
@@ -43,6 +49,15 @@ public class MainMod
         IEventBus modbus = FMLJavaModLoadingContext.get().getModEventBus();
         modbus.addListener(this::setup);
         MinecraftForge.EVENT_BUS.register(EventHandler.INSTANCE);
+        ModLoadingContext.get().registerExtensionPoint(
+                ExtensionPoint.DISPLAYTEST,
+                () -> Pair.of(() -> FMLNetworkConstants.IGNORESERVERONLY, (a, b) -> true)
+        );
+
+//        ModLoadingContext.get().getActiveContainer().registerExtensionPoint(DISPLAYTEST, ()-> Pair.of(
+//                ()-> FMLNetworkConstants.IGNORESERVERONLY, // ignore me, I'm a server only mod
+//                (s,b)->b // i accept anything from the server or the save, if I'm asked
+//        ));
     }
 
     private void setup(FMLCommonSetupEvent event) {
@@ -52,7 +67,7 @@ public class MainMod
 
     private void doClientStuff(FMLClientSetupEvent event) {
         // do something that can only be done on the client
-        logger.info("Got game settings {}", event.getMinecraftSupplier().get().gameSettings);
+        //logger.info("Got game settings {}", event.getMinecraftSupplier().get().sett);
     }
 
     private void enqueueIMC(InterModEnqueueEvent event)
