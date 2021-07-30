@@ -4,9 +4,10 @@ package com.spicymemes.core.network
 
 import com.spicymemes.core.*
 import com.spicymemes.core.network.packets.*
+import net.minecraft.resources.*
 import net.minecraft.util.*
-import net.minecraftforge.fml.network.*
-import net.minecraftforge.fml.network.simple.*
+import net.minecraftforge.fmllegacy.network.*
+import net.minecraftforge.fmllegacy.network.simple.*
 
 fun newSimpleChannel(version: String, modId: String, name: String = "main") = NetworkRegistry.newSimpleChannel(
         ResourceLocation(modId, name),

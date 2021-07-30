@@ -1,18 +1,16 @@
-@file:JvmName("SideLogic")
-
 package com.spicymemes.core.util
 
-import net.minecraft.world.*
+import net.minecraft.world.level.*
 import net.minecraftforge.fml.*
-import net.minecraftforge.fml.common.thread.*
+import net.minecraftforge.fml.util.thread.*
 
 inline fun serverOnly(action: () -> Unit) {
     if (EffectiveSide.get() == LogicalSide.SERVER)
         action()
 }
 
-inline fun serverOnly(world: IWorld, action: () -> Unit) {
-    if (!world.isRemote)
+inline fun serverOnly(world: LevelReader, action: () -> Unit) {
+    if (!world.isClientSide)
         action()
 }
 
@@ -21,8 +19,8 @@ inline fun clientOnly(action: () -> Unit) {
         action()
 }
 
-inline fun clientOnly(world: IWorld, action: () -> Unit) {
-    if (world.isRemote)
+inline fun clientOnly(world: LevelReader, action: () -> Unit) {
+    if (world.isClientSide)
         action()
 }
 

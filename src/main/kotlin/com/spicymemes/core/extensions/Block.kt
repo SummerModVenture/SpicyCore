@@ -1,8 +1,6 @@
-@file:JvmName("Block")
-
 package com.spicymemes.core.extensions
 
-import net.minecraft.block.Block
+import net.minecraft.world.level.block.*
 
 @Deprecated("Use registryName instead.")
 var Block.codename: String

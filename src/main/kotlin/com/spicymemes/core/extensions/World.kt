@@ -1,9 +1,7 @@
-@file:JvmName("World")
-
 package com.spicymemes.core.extensions
 
 import com.spicymemes.core.util.*
-import net.minecraft.util.math.*
-import net.minecraft.world.*
+import net.minecraft.core.*
+import net.minecraft.world.level.*
 
-fun World.getBlock(pos: BlockPos) = BlockInWorld(this, pos)
+fun Level.getBlock(pos: BlockPos) = BlockInWorld(this, pos)

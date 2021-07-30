@@ -1,9 +1,9 @@
 package com.spicymemes.core;
 
 import com.spicymemes.core.network.PacketRegisterHelper;
-import net.minecraft.block.Block;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -13,10 +13,10 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.network.NetworkRegistry;
-import net.minecraftforge.fml.network.simple.SimpleChannel;
+import net.minecraftforge.fmllegacy.network.NetworkRegistry;
+import net.minecraftforge.fmllegacy.network.simple.SimpleChannel;
+import net.minecraftforge.fmlserverevents.FMLServerStartingEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -46,30 +46,27 @@ public class MainMod
     }
 
     private void setup(FMLCommonSetupEvent event) {
-        logger.info("Hello World!");
+        logger.debug("Hello World!");
         PacketRegisterHelper.registerPackets();
     }
 
     private void doClientStuff(FMLClientSetupEvent event) {
-        // do something that can only be done on the client
-        logger.info("Got game settings {}", event.getMinecraftSupplier().get().gameSettings);
+
     }
 
-    private void enqueueIMC(InterModEnqueueEvent event)
-    {
-        // some example code to dispatch IMC to another mod
-        //InterModComms.sendTo("examplemod", "helloworld", () -> { logger.info("Hello world from the MDK"); return "Hello world";});
+    private void enqueueIMC(InterModEnqueueEvent event) {
+
     }
 
     private void processIMC(InterModProcessEvent event) {
         // some example code to receive and process InterModComms from other mods
-        logger.info("Got IMC {}", event.getIMCStream().map(m->m.getMessageSupplier().get()).collect(Collectors.toList()));
+        logger.debug("Got IMC {}", event.getIMCStream().map(m->m.messageSupplier().get()).collect(Collectors.toList()));
     }
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
         // do something when the server starts
-        logger.info("HELLO from server starting");
+        logger.debug("HELLO from server starting");
     }
 
     // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
@@ -79,7 +76,7 @@ public class MainMod
         @SubscribeEvent
         public static void onBlocksRegistry(RegistryEvent.Register<Block> blockRegistryEvent) {
             // register a new block here
-            logger.info("HELLO from Register Block");
+            logger.debug("HELLO from Register Block");
         }
 
         @SubscribeEvent

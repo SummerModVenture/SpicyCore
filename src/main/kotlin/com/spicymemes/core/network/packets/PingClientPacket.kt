@@ -1,10 +1,9 @@
 package com.spicymemes.core.network.packets
 
 import com.spicymemes.core.MainMod
-import com.spicymemes.core.network.SpicyPacket
-import com.spicymemes.core.network.SpicyPacketHandler
-import net.minecraft.network.PacketBuffer
-import net.minecraftforge.fml.network.NetworkEvent
+import com.spicymemes.core.network.*
+import net.minecraft.network.*
+import net.minecraftforge.fmllegacy.network.*
 
 class PingClientPacket(val timestamp: Long) : SpicyPacket {
 
@@ -15,10 +14,10 @@ class PingClientPacket(val timestamp: Long) : SpicyPacket {
             MainMod.INSTANCE.sendToServer(ClientPresentPacket(packet.timestamp))
         }
 
-        override fun encode(packet: PingClientPacket, buf: PacketBuffer) {
+        override fun encode(packet: PingClientPacket, buf: FriendlyByteBuf) {
             buf.writeLong(packet.timestamp)
         }
 
-        override fun decode(buf: PacketBuffer) = PingClientPacket(buf.readLong())
+        override fun decode(buf: FriendlyByteBuf) = PingClientPacket(buf.readLong())
     }
 }

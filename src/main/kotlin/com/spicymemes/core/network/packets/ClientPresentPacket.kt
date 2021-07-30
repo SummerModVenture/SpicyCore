@@ -1,10 +1,9 @@
 package com.spicymemes.core.network.packets
 
 import com.spicymemes.core.MainMod
-import com.spicymemes.core.network.SpicyPacket
-import com.spicymemes.core.network.SpicyPacketHandler
-import net.minecraft.network.PacketBuffer
-import net.minecraftforge.fml.network.NetworkEvent
+import com.spicymemes.core.network.*
+import net.minecraft.network.*
+import net.minecraftforge.fmllegacy.network.*
 import java.time.Instant
 
 class ClientPresentPacket(val timestamp: Long) : SpicyPacket {
@@ -18,10 +17,10 @@ class ClientPresentPacket(val timestamp: Long) : SpicyPacket {
             )
         }
 
-        override fun encode(packet: ClientPresentPacket, buf: PacketBuffer) {
+        override fun encode(packet: ClientPresentPacket, buf: FriendlyByteBuf) {
             buf.writeLong(packet.timestamp)
         }
 
-        override fun decode(buf: PacketBuffer) = ClientPresentPacket(buf.readLong())
+        override fun decode(buf: FriendlyByteBuf) = ClientPresentPacket(buf.readLong())
     }
 }

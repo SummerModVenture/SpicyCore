@@ -1,8 +1,6 @@
-@file:JvmName("Item")
-
 package com.spicymemes.core.extensions
 
-import net.minecraft.item.Item
+import net.minecraft.world.item.*
 
 @Deprecated("Use registryName instead.")
 var Item.codename: String

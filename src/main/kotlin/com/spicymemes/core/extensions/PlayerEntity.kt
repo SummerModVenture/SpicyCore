@@ -1,8 +1,9 @@
 package com.spicymemes.core.extensions
 
-import net.minecraft.client.entity.player.*
-import net.minecraft.entity.player.*
+import net.minecraft.client.player.*
+import net.minecraft.server.level.*
+import net.minecraft.world.entity.player.*
 
-fun PlayerEntity.toServerPlayerEntity(): ServerPlayerEntity = this as ServerPlayerEntity
+fun Player.asServerPlayer(): ServerPlayer = this as ServerPlayer
 
-fun PlayerEntity.toClientPlayerEntity(): ClientPlayerEntity = this as ClientPlayerEntity
+fun Player.asRemotePlayer(): RemotePlayer = this as RemotePlayer
