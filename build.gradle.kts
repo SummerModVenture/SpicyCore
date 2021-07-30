@@ -9,14 +9,15 @@ plugins {
     signing
 }
 
-version = "1.17.1-2.1.0"
 group = "com.spicymemes"
+val archivesBaseName = "spicycore-1.17.1"
 val isRelease = !version.toString().endsWith("-SNAPSHOT")
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(16))
 
 minecraft {
-    mappings("official", "1.17.1")
+    val mappingsVersion: String by project
+    mappings("official", mappingsVersion)
 
     runs {
         create("client") {
@@ -67,7 +68,9 @@ sourceSets.main {
 }
 
 dependencies {
-    minecraft("net.minecraftforge:forge:1.17.1-37.0.15")
+    val mcVersion: String by project
+    val forgeVersion: String by project
+    minecraft("net.minecraftforge:forge:$mcVersion-$forgeVersion")
 }
 
 tasks {
@@ -79,7 +82,7 @@ tasks {
     }
 
     jar {
-        archiveBaseName.set("spicycore")
+        archiveBaseName.set(archivesBaseName)
         manifest {
             attributes(
                 "Specification-Title"     to "examplemod",
@@ -97,6 +100,7 @@ tasks {
 }
 
 val sourcesJar by tasks.registering(Jar::class) {
+    archiveBaseName.set(archivesBaseName)
     archiveClassifier.set("sources")
     from(project.sourceSets["main"].allSource)
 }
@@ -110,6 +114,7 @@ publishing {
         create<MavenPublication>("kotlin") {
             artifact(tasks.jar)
             artifact(sourcesJar)
+            artifactId = archivesBaseName
         }
     }
 
