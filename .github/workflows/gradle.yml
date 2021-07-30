@@ -66,7 +66,7 @@ jobs:
       - name: Build and Publish Artifacts
         run: ./gradlew -x test publish
         env:
-          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.signingKey }}
-          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.signingPassword }}
-          ORG_GRADLE_PROJECT_mavenUsername: ${{ secrets.mavenUsername }}
-          ORG_GRADLE_PROJECT_mavenPassword: ${{ secrets.mavenPassword }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.signing_key }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.signing_password }}
+          ORG_GRADLE_PROJECT_mavenUsername: ${{ secrets.maven_username }}
+          ORG_GRADLE_PROJECT_mavenPassword: ${{ secrets.maven_password }}
