@@ -9,8 +9,9 @@ plugins {
     signing
 }
 
-group = "com.spicymemes"
-val archivesBaseName = "spicycore-1.17.1"
+val modid: String by project
+val modName: String by project
+val archivesBaseName: String by project
 val isRelease = !version.toString().endsWith("-SNAPSHOT")
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(16))
@@ -67,35 +68,30 @@ sourceSets.main {
     resources.srcDir("src/generated/resources")
 }
 
+repositories {
+    mavenCentral()
+    maven("https://maven.minecraftforge.net")
+    mavenLocal() // needed for local library-loading fix
+}
+
 dependencies {
     val mcVersion: String by project
     val forgeVersion: String by project
-    minecraft("net.minecraftforge:forge:$mcVersion-$forgeVersion")
+    minecraft("net.minecraftforge:forge:1.17.1-36.1.90-fix-1.17.x-library-loading")
 }
 
 tasks {
     compileKotlin {
         kotlinOptions.jvmTarget = "16"
     }
+
     compileTestKotlin {
         kotlinOptions.jvmTarget = "16"
     }
 
     jar {
         archiveBaseName.set(archivesBaseName)
-        manifest {
-            attributes(
-                "Specification-Title"     to "examplemod",
-                "Specification-Vendor"    to "examplemodsareus",
-                "Specification-Version"   to "1", // We are version 1 of ourselves
-                "Implementation-Title"    to project.name,
-                "Implementation-Version"  to archiveVersion,
-                "Implementation-Vendor"   to "examplemodsareus",
-                "Implementation-Timestamp" to LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME)
-            )
-        }
-
-        finalizedBy("reobfJar")
+        manifest()
     }
 }
 
@@ -105,14 +101,23 @@ val sourcesJar by tasks.registering(Jar::class) {
     from(project.sourceSets["main"].allSource)
 }
 
+val modJar by tasks.registering(Jar::class) {
+    archiveBaseName.set(archivesBaseName)
+    archiveClassifier.set("obf")
+    from(sourceSets.main.get().output)
+    manifest()
+    finalizedBy("reobfJar")
+}
+
 tasks.assemble {
-    dependsOn(sourcesJar)
+    dependsOn(modJar, sourcesJar)
 }
 
 publishing {
     publications {
-        create<MavenPublication>("kotlin") {
+        create<MavenPublication>("minecraft") {
             artifact(tasks.jar)
+            artifact(modJar)
             artifact(sourcesJar)
             artifactId = archivesBaseName
         }
@@ -143,7 +148,7 @@ signing {
     val signingKey: String? by project
     val signingPassword: String? by project
     useInMemoryPgpKeys(signingKey, signingPassword)
-    sign(publishing.publications["kotlin"])
+    sign(publishing.publications["minecraft"])
 }
 
 tasks.withType<Sign>().configureEach {
@@ -154,4 +159,18 @@ release {
     preTagCommitMessage = "Release version"
     tagCommitMessage = "Release version"
     newVersionCommitMessage = "Next development version"
+}
+
+fun Jar.manifest() {
+    manifest {
+        attributes(
+            "Specification-Title"     to modid,
+            "Specification-Vendor"    to "Forge",
+            "Specification-Version"   to "1", // We are version 1 of ourselves
+            "Implementation-Title"    to project.name,
+            "Implementation-Version"  to archiveVersion,
+            "Implementation-Vendor"   to "spicymemes",
+            "Implementation-Timestamp" to LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME)
+        )
+    }
 }
