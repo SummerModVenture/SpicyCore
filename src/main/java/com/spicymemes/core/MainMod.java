@@ -1,6 +1,6 @@
 package com.spicymemes.core;
 
-import com.spicymemes.core.network.PacketRegisterHelper;
+import com.spicymemes.core.network.ModPackets;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -47,7 +47,7 @@ public class MainMod
 
     private void setup(FMLCommonSetupEvent event) {
         logger.debug("Hello World!");
-        PacketRegisterHelper.registerPackets();
+        ModPackets.INSTANCE.registerPackets();
     }
 
     private void doClientStuff(FMLClientSetupEvent event) {

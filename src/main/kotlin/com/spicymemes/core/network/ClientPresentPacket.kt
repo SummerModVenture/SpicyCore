@@ -1,7 +1,7 @@
-package com.spicymemes.core.network.packets
+package com.spicymemes.core.network
 
+import com.spicymemes.api.network.*
 import com.spicymemes.core.MainMod
-import com.spicymemes.core.network.*
 import net.minecraft.network.*
 import net.minecraftforge.fmllegacy.network.*
 import java.time.Instant

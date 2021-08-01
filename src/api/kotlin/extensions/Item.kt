@@ -1,13 +1,13 @@
-package com.spicymemes.core.extensions
+package com.spicymemes.api.extensions
 
-import net.minecraft.world.level.block.*
+import net.minecraft.world.item.*
 
 @Deprecated("Use registryName instead.")
-var Block.codename: String
+var Item.codename: String
     get() = registryName!!.namespace
     set(value) = Unit.apply { setRegistryName(value) }
 
 @Deprecated("Use registryName instead.", ReplaceWith("setRegistryName(name)"))
-fun Block.setCodename(name: String): Block {
+fun Item.setCodename(name: String): Item {
     return setRegistryName(name)
 }

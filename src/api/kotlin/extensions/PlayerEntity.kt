@@ -1,4 +1,4 @@
-package com.spicymemes.core.extensions
+package com.spicymemes.api.extensions
 
 import net.minecraft.client.player.*
 import net.minecraft.server.level.*

@@ -1,4 +1,4 @@
-package com.spicymemes.core.util
+package com.spicymemes.api
 
 import net.minecraft.world.level.*
 import net.minecraftforge.fml.*

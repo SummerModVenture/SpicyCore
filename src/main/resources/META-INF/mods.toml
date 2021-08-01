@@ -1,14 +1,29 @@
 modLoader="javafml"
-loaderVersion="[36,)"
+loaderVersion="${loaderVersionRange}"
 license="All rights reserved"
 
 [[mods]]
 
 modId="spicycore"
-version="${file.jarVersion}"
-displayName="Spicy Core"
+version="${version}"
+displayName="${modName}"
 credits="Dank memes"
 authors="vtsman, came20, ninjabou, tacoguy56, masterzach32"
 description='''
 	The spiciest core.
 '''
+
+# A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
+[[dependencies.spicyminer]]
+modId="forge"
+mandatory=true
+versionRange="${forgeVersionRange}"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.spicyminer]]
+modId="minecraft"
+mandatory=true
+versionRange="${mcVersionRange}"
+ordering="NONE"
+side="BOTH"

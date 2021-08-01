@@ -14,7 +14,22 @@ val modName: String by project
 val archivesBaseName: String by project
 val isRelease = !version.toString().endsWith("-SNAPSHOT")
 
+val apiSourceSet = sourceSets.create("api")
+sourceSets {
+    main {
+        compileClasspath += apiSourceSet.output
+        runtimeClasspath += apiSourceSet.output
+        resources.srcDir("src/generated/resources")
+    }
+}
+
+configurations {
+    get(apiSourceSet.implementationConfigurationName).extendsFrom(implementation.get())
+    get(apiSourceSet.runtimeOnlyConfigurationName).extendsFrom(runtimeOnly.get())
+}
+
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(16))
+configureKotlinJvmOptions(jvmTarget = "16")
 
 minecraft {
     val mappingsVersion: String by project
@@ -64,10 +79,6 @@ minecraft {
     }
 }
 
-sourceSets.main {
-    resources.srcDir("src/generated/resources")
-}
-
 repositories {
     mavenCentral()
     maven("https://maven.minecraftforge.net")
@@ -80,46 +91,82 @@ dependencies {
     minecraft("net.minecraftforge:forge:1.17.1-36.1.90-fix-1.17.x-library-loading")
 }
 
-tasks {
-    compileKotlin {
-        kotlinOptions.jvmTarget = "16"
-    }
 
-    compileTestKotlin {
-        kotlinOptions.jvmTarget = "16"
-    }
+val updateModsToml by tasks.registering(Copy::class) {
+    outputs.upToDateWhen { false }
 
-    jar {
-        archiveBaseName.set(archivesBaseName)
-        manifest()
+    val mcVersionRange: String by project
+    val forgeVersionRange: String by project
+    val loaderVersionRange: String by project
+    from(sourceSets.main.get().resources) {
+        include("META-INF/mods.toml")
+        expand(
+            "modName" to modName,
+            "version" to version,
+            "mcVersionRange" to mcVersionRange,
+            "forgeVersionRange" to forgeVersionRange,
+            "loaderVersionRange" to loaderVersionRange,
+        )
     }
+    into("$buildDir/resources/main")
+}
+
+tasks.classes {
+    dependsOn(updateModsToml)
+}
+
+tasks.jar {
+    archiveBaseName.set(archivesBaseName)
+    from(sourceSets.main.get().output)
+    from(apiSourceSet.output)
+    manifest()
+    finalizedBy("reobfJar")
+}
+
+val apiJar by tasks.registering(Jar::class) {
+    archiveBaseName.set(archivesBaseName)
+    archiveClassifier.set("api")
+    from(apiSourceSet.output)
+    manifest()
+    finalizedBy("reobfApiJar")
 }
 
 val sourcesJar by tasks.registering(Jar::class) {
     archiveBaseName.set(archivesBaseName)
     archiveClassifier.set("sources")
-    from(project.sourceSets["main"].allSource)
+    from(sourceSets.main.get().allSource)
+    from(apiSourceSet.allSource)
 }
 
-val modJar by tasks.registering(Jar::class) {
+val deobfJar by tasks.registering(Jar::class) {
     archiveBaseName.set(archivesBaseName)
-    archiveClassifier.set("obf")
+    archiveClassifier.set("deobf")
     from(sourceSets.main.get().output)
+    from(apiSourceSet.output)
     manifest()
-    finalizedBy("reobfJar")
 }
 
 tasks.assemble {
-    dependsOn(modJar, sourcesJar)
+    dependsOn(apiJar, sourcesJar, deobfJar)
+}
+
+reobf {
+    create("apiJar") {
+        classpath.from(sourceSets["api"].compileClasspath)
+    }
+    create("jar") {
+        classpath.from(sourceSets.main.get().compileClasspath)
+    }
 }
 
 publishing {
     publications {
         create<MavenPublication>("minecraft") {
-            artifact(tasks.jar)
-            artifact(modJar)
-            artifact(sourcesJar)
             artifactId = archivesBaseName
+            artifact(tasks.jar)
+            artifact(apiJar)
+            artifact(sourcesJar)
+            artifact(deobfJar)
         }
     }
 
@@ -168,9 +215,23 @@ fun Jar.manifest() {
             "Specification-Vendor"    to "Forge",
             "Specification-Version"   to "1", // We are version 1 of ourselves
             "Implementation-Title"    to project.name,
-            "Implementation-Version"  to archiveVersion,
+            "Implementation-Version"  to project.version,
             "Implementation-Vendor"   to "spicymemes",
             "Implementation-Timestamp" to LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME)
         )
+    }
+}
+
+fun configureKotlinJvmOptions(jvmTarget: String) {
+    tasks.compileKotlin {
+        kotlinOptions.jvmTarget = jvmTarget
+    }
+
+    val compileApiKotlin by tasks.existing(org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile::class) {
+        kotlinOptions.jvmTarget = jvmTarget
+    }
+
+    tasks.compileTestKotlin {
+        kotlinOptions.jvmTarget = jvmTarget
     }
 }

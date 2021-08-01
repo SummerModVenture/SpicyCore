@@ -1,4 +1,4 @@
-package com.spicymemes.core.recipe;
+package com.spicymemes.api;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -6,7 +6,6 @@ import net.minecraft.world.level.block.Block;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiConsumer;
 
 /**
  * Represents a registry for single input, single output recipes.

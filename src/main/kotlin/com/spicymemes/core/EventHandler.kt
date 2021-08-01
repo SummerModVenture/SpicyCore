@@ -1,6 +1,6 @@
 package com.spicymemes.core
 
-import com.spicymemes.core.network.packets.PingClientPacket
+import com.spicymemes.core.network.PingClientPacket
 import net.minecraft.server.level.*
 import net.minecraft.world.entity.*
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent

@@ -1,7 +1,6 @@
-package com.spicymemes.core.recipe;
+package com.spicymemes.api;
 
 import java.util.HashMap;
-import java.util.NoSuchElementException;
 
 public class RecipesRegistryManager {
     private static HashMap<String, RecipesBase> registries = new HashMap<>();
