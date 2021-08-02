@@ -49,7 +49,7 @@ minecraft {
 
             mods {
                 create("spicycore") {
-                    sources(sourceSets.main.get())
+                    sources(sourceSets.main.get(), apiSourceSet)
                 }
             }
         }
@@ -62,7 +62,7 @@ minecraft {
 
             mods {
                 create("spicycore") {
-                    sources(sourceSets.main.get())
+                    sources(sourceSets.main.get(), apiSourceSet)
                 }
             }
         }
@@ -77,7 +77,7 @@ minecraft {
 
             mods {
                 create("spicycore") {
-                    sources(sourceSets.main.get())
+                    sources(sourceSets.main.get(), apiSourceSet)
                 }
             }
         }

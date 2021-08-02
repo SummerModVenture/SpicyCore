@@ -2,8 +2,16 @@ package com.spicymemes.api
 
 import net.minecraft.core.*
 import net.minecraft.nbt.*
+import java.util.*
+import kotlin.NoSuchElementException
 import kotlin.properties.*
 import kotlin.reflect.*
+
+fun CompoundTag.putBlockPos(key: String, pos: BlockPos) {
+    putLong(key, pos.asLong())
+}
+
+fun CompoundTag.getBlockPos(key: String): BlockPos = BlockPos.of(getLong(key))
 
 operator fun <V : Any> CompoundTag.getValue(thisRef: Any?, property: KProperty<*>): V =
     delegate<V>().getValue(thisRef, property)
@@ -34,11 +42,8 @@ fun <V : Any> CompoundTag.delegate(): ReadOnlyProperty<Any?, V> =
         }
     }
 
-fun CompoundTag.ints(): ReadOnlyProperty<Any?, Int> =
-    ReadOnlyProperty { _, property -> retrieve(property.name, CompoundTag::getInt) }
-
-fun CompoundTag.blockPos(): ReadOnlyProperty<Any?, BlockPos> =
-    ReadOnlyProperty { _, property -> retrieve(property.name, CompoundTag::getBlockPos) }
+fun CompoundTag.uuid(): ReadOnlyProperty<Any?, UUID> =
+    ReadOnlyProperty { _, property -> retrieve(property.name, CompoundTag::getUUID) }
 
 private fun <T> CompoundTag.retrieve(name: String, getter: CompoundTag.(String) -> T): T {
     return if (contains(name))
@@ -46,10 +51,4 @@ private fun <T> CompoundTag.retrieve(name: String, getter: CompoundTag.(String) 
     else
         throw NoSuchElementException("No element named \"$name\" found.")
 }
-
-fun CompoundTag.putBlockPos(key: String, pos: BlockPos) {
-    putLong(key, pos.asLong())
-}
-
-fun CompoundTag.getBlockPos(key: String): BlockPos = BlockPos.of(getLong(key))
 
