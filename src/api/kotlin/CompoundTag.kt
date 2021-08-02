@@ -13,6 +13,26 @@ fun CompoundTag.putBlockPos(key: String, pos: BlockPos) {
 
 fun CompoundTag.getBlockPos(key: String): BlockPos = BlockPos.of(getLong(key))
 
+operator fun CompoundTag.set(key: String, value: Boolean) = putBoolean(key, value)
+
+operator fun CompoundTag.set(key: String, value: Byte) = putByte(key, value)
+
+operator fun CompoundTag.set(key: String, value: Short) = putShort(key, value)
+
+operator fun CompoundTag.set(key: String, value: Int) = putInt(key, value)
+
+operator fun CompoundTag.set(key: String, value: Long) = putLong(key, value)
+
+operator fun CompoundTag.set(key: String, value: Float) = putFloat(key, value)
+
+operator fun CompoundTag.set(key: String, value: Double) = putDouble(key, value)
+
+operator fun CompoundTag.set(key: String, value: String) = putString(key, value)
+
+operator fun CompoundTag.set(key: String, value: UUID) = putUUID(key, value)
+
+operator fun CompoundTag.set(key: String, value: BlockPos) = putBlockPos(key, value)
+
 operator fun <V : Any> CompoundTag.getValue(thisRef: Any?, property: KProperty<*>): V =
     delegate<V>().getValue(thisRef, property)
 
