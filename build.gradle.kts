@@ -23,9 +23,14 @@ sourceSets {
     }
 }
 
+val library: Configuration by configurations.creating
 configurations {
     get(apiSourceSet.implementationConfigurationName).extendsFrom(implementation.get())
     get(apiSourceSet.runtimeOnlyConfigurationName).extendsFrom(runtimeOnly.get())
+
+    implementation {
+        extendsFrom(library)
+    }
 }
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(16))
@@ -44,7 +49,7 @@ minecraft {
 
             mods {
                 create("spicycore") {
-                    source(sourceSets.main.get())
+                    sources(sourceSets.main.get())
                 }
             }
         }
@@ -57,7 +62,7 @@ minecraft {
 
             mods {
                 create("spicycore") {
-                    source(sourceSets.main.get())
+                    sources(sourceSets.main.get())
                 }
             }
         }
@@ -72,23 +77,32 @@ minecraft {
 
             mods {
                 create("spicycore") {
-                    source(sourceSets.main.get())
+                    sources(sourceSets.main.get())
                 }
             }
         }
     }
 }
 
+// temporary fix for missing libs
+minecraft.runs.all {
+    lazyToken("minecraft_classpath") {
+        library.copyRecursive().resolve().joinToString(File.pathSeparator) { it.absolutePath }
+    }
+}
+
 repositories {
     mavenCentral()
     maven("https://maven.minecraftforge.net")
-    mavenLocal() // needed for local library-loading fix
+//    mavenLocal() // needed for local library-loading fix
 }
 
 dependencies {
     val mcVersion: String by project
     val forgeVersion: String by project
-    minecraft("net.minecraftforge:forge:1.17.1-36.1.90-fix-1.17.x-library-loading")
+    minecraft("net.minecraftforge:forge:$mcVersion-$forgeVersion")
+
+    library(kotlin("stdlib"))
 }
 
 
@@ -111,11 +125,18 @@ val updateModsToml by tasks.registering(Copy::class) {
     into("$buildDir/resources/main")
 }
 
+tasks.processResources {
+    duplicatesStrategy = DuplicatesStrategy.FAIL
+    exclude("META-INF/mods.toml")
+    finalizedBy(updateModsToml)
+}
+
 tasks.classes {
     dependsOn(updateModsToml)
 }
 
 tasks.jar {
+    duplicatesStrategy = DuplicatesStrategy.FAIL
     archiveBaseName.set(archivesBaseName)
     from(sourceSets.main.get().output)
     from(apiSourceSet.output)
@@ -124,14 +145,20 @@ tasks.jar {
 }
 
 val apiJar by tasks.registering(Jar::class) {
+    duplicatesStrategy = DuplicatesStrategy.FAIL
     archiveBaseName.set(archivesBaseName)
     archiveClassifier.set("api")
     from(apiSourceSet.output)
     manifest()
     finalizedBy("reobfApiJar")
+
+    // remove once fixed
+    // Gradle should be able to pull them from the -sources jar.
+    from(apiSourceSet.allSource)
 }
 
 val sourcesJar by tasks.registering(Jar::class) {
+    duplicatesStrategy = DuplicatesStrategy.FAIL
     archiveBaseName.set(archivesBaseName)
     archiveClassifier.set("sources")
     from(sourceSets.main.get().allSource)
@@ -139,6 +166,7 @@ val sourcesJar by tasks.registering(Jar::class) {
 }
 
 val deobfJar by tasks.registering(Jar::class) {
+    duplicatesStrategy = DuplicatesStrategy.FAIL
     archiveBaseName.set(archivesBaseName)
     archiveClassifier.set("deobf")
     from(sourceSets.main.get().output)
