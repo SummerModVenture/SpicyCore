@@ -25,9 +25,12 @@ sourceSets {
 
 val library: Configuration by configurations.creating
 configurations {
-    get(apiSourceSet.implementationConfigurationName).extendsFrom(implementation.get())
-    get(apiSourceSet.runtimeOnlyConfigurationName).extendsFrom(runtimeOnly.get())
-
+    named(apiSourceSet.implementationConfigurationName) {
+        extendsFrom(implementation.get())
+    }
+    named(apiSourceSet.runtimeOnlyConfigurationName) {
+        extendsFrom(runtimeOnly.get())
+    }
     implementation {
         extendsFrom(library)
     }
@@ -104,7 +107,6 @@ dependencies {
 
     library(kotlin("stdlib"))
 }
-
 
 val updateModsToml by tasks.registering(Copy::class) {
     outputs.upToDateWhen { false }
@@ -256,6 +258,7 @@ fun configureKotlinJvmOptions(jvmTarget: String) {
     }
 
     val compileApiKotlin by tasks.existing(org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile::class) {
+        kotlinOptions.freeCompilerArgs = listOf("-Xopt-in=kotlin.contracts.ExperimentalContracts")
         kotlinOptions.jvmTarget = jvmTarget
     }
 
