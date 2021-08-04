@@ -1,5 +1,7 @@
 import java.time.*
 import java.time.format.*
+import net.minecraftforge.gradle.common.util.*
+import org.jetbrains.kotlin.gradle.dsl.*
 
 plugins {
     kotlin("jvm") version "1.5.21"
@@ -9,7 +11,7 @@ plugins {
     signing
 }
 
-val modid: String by project
+val modId: String by project
 val modName: String by project
 val archivesBaseName: String by project
 val isRelease = !version.toString().endsWith("-SNAPSHOT")
@@ -37,52 +39,43 @@ configurations {
 }
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(16))
-configureKotlinJvmOptions(jvmTarget = "16")
+configureKotlin {
+    kotlinOptions {
+        freeCompilerArgs = listOf("-Xopt-in=kotlin.contracts.ExperimentalContracts")
+        jvmTarget = "16"
+    }
+}
 
 minecraft {
     val mappingsVersion: String by project
     mappings("official", mappingsVersion)
 
     runs {
-        create("client") {
-            workingDirectory(project.file("run"))
-
+        val runConfig: RunConfig.() -> Unit = {
+            workingDirectory(project.file("run/$name"))
             property("forge.logging.markers", "REGISTRIES")
             property("forge.logging.console.level", "DEBUG")
 
             mods {
-                create("spicycore") {
+                register(modId) {
                     sources(sourceSets.main.get(), apiSourceSet)
                 }
             }
         }
 
-        create("server") {
-            workingDirectory(project.file("run"))
+        val client by registering(runConfig)
+        register("server", runConfig)
 
-            property("forge.logging.markers", "REGISTRIES")
-            property("forge.logging.console.level", "DEBUG")
-
-            mods {
-                create("spicycore") {
-                    sources(sourceSets.main.get(), apiSourceSet)
-                }
-            }
-        }
-
-        create("data") {
-            workingDirectory(project.file("run"))
-
-            property("forge.logging.markers", "REGISTRIES")
-            property("forge.logging.console.level", "DEBUG")
-
-            args("--mod", "examplemod", "--all", "--output", file("src/generated/resources/"), "--existing", file("src/main/resources/"))
-
-            mods {
-                create("spicycore") {
-                    sources(sourceSets.main.get(), apiSourceSet)
-                }
-            }
+        client {
+            val minecraftUUID: String? by project
+            if (minecraftUUID != null)
+                args("--uuid", minecraftUUID)
+            val minecraftUsername: String? by project
+            if (minecraftUsername != null)
+                args("--username", minecraftUsername)
+            val minecraftAccessToken: String? by project
+            if (minecraftAccessToken != null)
+                args("--accessToken", minecraftAccessToken)
         }
     }
 }
@@ -97,7 +90,6 @@ minecraft.runs.all {
 repositories {
     mavenCentral()
     maven("https://maven.minecraftforge.net")
-//    mavenLocal() // needed for local library-loading fix
 }
 
 dependencies {
@@ -108,33 +100,22 @@ dependencies {
     library(kotlin("stdlib"))
 }
 
-val updateModsToml by tasks.registering(Copy::class) {
-    outputs.upToDateWhen { false }
-
+tasks.processResources {
+    duplicatesStrategy = DuplicatesStrategy.FAIL
     val mcVersionRange: String by project
     val forgeVersionRange: String by project
     val loaderVersionRange: String by project
-    from(sourceSets.main.get().resources) {
-        include("META-INF/mods.toml")
-        expand(
-            "modName" to modName,
-            "version" to version,
-            "mcVersionRange" to mcVersionRange,
-            "forgeVersionRange" to forgeVersionRange,
-            "loaderVersionRange" to loaderVersionRange,
-        )
+    val props = mapOf(
+        "modName" to modName,
+        "version" to project.version,
+        "mcVersionRange" to mcVersionRange,
+        "forgeVersionRange" to forgeVersionRange,
+        "loaderVersionRange" to loaderVersionRange
+    )
+    inputs.properties(props)
+    filesMatching("META-INF/mods.toml") {
+        expand(props)
     }
-    into("$buildDir/resources/main")
-}
-
-tasks.processResources {
-    duplicatesStrategy = DuplicatesStrategy.FAIL
-    exclude("META-INF/mods.toml")
-    finalizedBy(updateModsToml)
-}
-
-tasks.classes {
-    dependsOn(updateModsToml)
 }
 
 tasks.jar {
@@ -241,7 +222,7 @@ release {
 fun Jar.manifest() {
     manifest {
         attributes(
-            "Specification-Title"     to modid,
+            "Specification-Title"     to modId,
             "Specification-Vendor"    to "Forge",
             "Specification-Version"   to "1", // We are version 1 of ourselves
             "Implementation-Title"    to project.name,
@@ -252,17 +233,8 @@ fun Jar.manifest() {
     }
 }
 
-fun configureKotlinJvmOptions(jvmTarget: String) {
-    tasks.compileKotlin {
-        kotlinOptions.jvmTarget = jvmTarget
-    }
-
-    val compileApiKotlin by tasks.existing(org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile::class) {
-        kotlinOptions.freeCompilerArgs = listOf("-Xopt-in=kotlin.contracts.ExperimentalContracts")
-        kotlinOptions.jvmTarget = jvmTarget
-    }
-
-    tasks.compileTestKotlin {
-        kotlinOptions.jvmTarget = jvmTarget
-    }
+fun configureKotlin(config: KotlinJvmCompile.() -> Unit) {
+    tasks.named("compileApiKotlin", KotlinJvmCompile::class, config)
+    tasks.compileKotlin(config)
+    tasks.compileTestKotlin(config)
 }
