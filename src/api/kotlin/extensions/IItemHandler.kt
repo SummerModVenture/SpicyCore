@@ -15,4 +15,6 @@ fun IItemHandler.insert(stack: ItemStack, simulate: Boolean = false): ItemStack 
 }
 
 val IItemHandler.allItems: List<ItemStack>
-    get() = (0 until slots).map { getStackInSlot(it) }
+    get() = (0 until slots)
+        .map { getStackInSlot(it) }
+        .filter { !it.isEmpty }
