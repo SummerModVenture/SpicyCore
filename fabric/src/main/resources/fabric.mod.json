@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "spicycore",
+  "version": "${version}",
+  "name": "Spicy Core",
+  "description": "The spiciest core.",
+  "authors": [
+    "vtsman", "came20", "ninjabou", "tacoguy56", "masterzach32"
+  ],
+  "contact": {
+    "homepage": "https://example.com/",
+    "issues": "https://example.com/",
+    "sources": "https://example.com/"
+  },
+  "license": "All rights reserved",
+  "icon": "assets/spicycore/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      {
+        "adapter": "kotlin",
+        "value": "com.spicymemes.core.FabricMod"
+      }
+    ]
+  },
+  "mixins": [
+    "spicycore.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.6",
+    "fabric": "*",
+    "fabric-language-kotlin": ">=1.6.3+kotlin.1.5.21",
+    "minecraft": "1.17.x",
+    "java": ">=16"
+  }
+}

@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.tasks.*
 
 plugins {
     kotlin("jvm")
@@ -13,23 +14,51 @@ sourceSets {
 }
 
 configurations {
-    val compileClasspath by getting
-    get("apiImplementation").extendsFrom(compileClasspath)
+    get("apiImplementation").extendsFrom(compileClasspath.get())
 }
 
-loom {
-
+kotlin.sourceSets.main {
+    kotlin.srcDir("src/main/generated")
 }
+
+minecraft {}
 
 dependencies {
-    val mcVersion: String by project
-    minecraft("com.mojang:minecraft:$mcVersion")
+    minecraft(libs.fabric.minecraft)
     mappings(loom.officialMojangMappings())
 
-    val fabricLoaderVersion: String by project
-    modImplementation("net.fabricmc:fabric-loader:$fabricLoaderVersion")
-    val fabricVersion: String by project
-    modImplementation("net.fabricmc.fabric-api:fabric-api:$fabricVersion")
+    modImplementation(libs.fabric.loader)
+}
+
+val generateModInfo by tasks.registering {
+    description = "Generates the ModInfo.kt source file."
+    val modId: String by rootProject
+    val modName: String by rootProject
+    doLast {
+        mkdir("src/main/generated")
+        file("src/main/generated/ModInfo.kt").writeText("""
+            package com.spicymemes.common
+            
+            const val MOD_ID = "$modId"
+            const val MOD_NAME = "$modName"
+            const val MOD_VERSION = "$version"
+        """.trimIndent() + "\n")
+    }
+}
+
+tasks.compileKotlin {
+    dependsOn(generateModInfo)
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs = listOf("-Xopt-in=kotlin.contracts.ExperimentalContracts")
+        jvmTarget = "16"
+    }
+}
+
+tasks.jar {
+    enabled = false
 }
 
 tasks.remapJar {
