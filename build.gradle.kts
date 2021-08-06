@@ -95,7 +95,6 @@ repositories {
 }
 
 dependencies {
-    val mcVersion: String by project
     val forgeVersion: String by project
     minecraft("net.minecraftforge:forge:$mcVersion-$forgeVersion")
 
