@@ -56,7 +56,7 @@ minecraft {
 
     runs {
         val runConfig: RunConfig.() -> Unit = {
-            sources = listOf(sourceSets.main.get()) + common.sourceSets
+            sources = listOf(sourceSets.main.get()) + apiSourceSet + common.sourceSets["main"] + common.sourceSets["api"]
             workingDirectory(project.file("run/$name"))
             property("forge.logging.markers", "REGISTRIES")
             property("forge.logging.console.level", "DEBUG")
