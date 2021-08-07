@@ -14,7 +14,6 @@ import org.apache.logging.log4j.*
 class ForgeMod {
 
     init {
-        logger = LogManager.getLogger(MOD_ID)
         ModLoadingContext.get().also { context ->
             container = context.activeContainer
         }
@@ -23,12 +22,9 @@ class ForgeMod {
     companion object {
 
         lateinit var container: ModContainer
-        lateinit var logger: Logger
-
         @SubscribeEvent
         @JvmStatic
         fun setupCommon(event: FMLCommonSetupEvent) {
-            logger = LogManager.getLogger("SpicyMiner")
             Network.registerPackets()
         }
 

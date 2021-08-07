@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalSerializationApi::class)
 
-package com.spicymemes.api.network
+package com.spicymemes.api.serialization
 
 import io.netty.buffer.*
 import kotlinx.serialization.*
@@ -89,8 +89,8 @@ private class ByteBufEncoder(val buf: FriendlyByteBuf = bufferedPacket()) : Abst
         buf.writeCharSequence(value, Charset.defaultCharset())
     }
 
-    override fun encodeEnum(enumDescription: SerialDescriptor, ordinal: Int) {
-        buf.writeInt(ordinal)
+    override fun encodeEnum(enumDescriptor: SerialDescriptor, index: Int) {
+        buf.writeInt(index)
     }
 }
 
@@ -105,7 +105,7 @@ private class ByteBufDecoder(val buf: FriendlyByteBuf) : AbstractDecoder() {
         return elementIndex++
     }
 
-    override fun decodeCollectionSize(desc: SerialDescriptor): Int = buf.readInt()
+    override fun decodeCollectionSize(descriptor: SerialDescriptor): Int = buf.readInt()
     override fun decodeNotNullMark(): Boolean = buf.readByte() != 0.toByte()
     override fun decodeBoolean(): Boolean = buf.readBoolean()
     override fun decodeByte(): Byte = buf.readByte()
@@ -116,6 +116,6 @@ private class ByteBufDecoder(val buf: FriendlyByteBuf) : AbstractDecoder() {
     override fun decodeDouble(): Double = buf.readDouble()
     override fun decodeChar(): Char = buf.readChar()
     override fun decodeString(): String = buf.readCharSequence(buf.readInt(), Charset.defaultCharset()).toString()
-    override fun decodeEnum(enumDescription: SerialDescriptor): Int = buf.readInt()
+    override fun decodeEnum(enumDescriptor: SerialDescriptor): Int = buf.readInt()
     override fun decodeNull(): Nothing? = null
 }

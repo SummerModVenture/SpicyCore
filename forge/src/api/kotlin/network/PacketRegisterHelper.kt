@@ -1,5 +1,6 @@
 package com.spicymemes.api.network
 
+import com.spicymemes.api.serialization.*
 import net.minecraft.resources.*
 import net.minecraftforge.fmllegacy.network.*
 import net.minecraftforge.fmllegacy.network.simple.*
@@ -12,10 +13,7 @@ fun newSimpleChannel(version: String, modId: String, name: String = "main") = Ne
 )
 
 @Suppress("INACCESSIBLE_TYPE")
-inline fun <reified M> SimpleChannel.registerPacket(
-        id: Int,
-        handler: ForgePacketHandler<M>
-) {
+inline fun <reified M> SimpleChannel.registerPacket(id: Int, handler: ForgePacketHandler<M>) {
     registerMessage(
             id,
             M::class.java,

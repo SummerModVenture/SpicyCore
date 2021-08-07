@@ -5,6 +5,7 @@ fabric-api = "0.37.1+1.17"
 fabric-loader = "0.11.6"
 fabric-kotlin = "1.6.3+kotlin.1.5.21"
 forge = "1.17.1-37.0.22"
+kotlinx-serialization = "1.2.2"
 
 [libraries]
 fabric-minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
@@ -12,6 +13,8 @@ fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-l
 fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api" }
 fabric-kotlin = { module = "net.fabricmc:fabric-language-kotlin", version.ref = "fabric-kotlin" }
 forge-minecraft = { module = "net.minecraftforge:forge", version.ref = "forge" }
+kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
 [bundles]
 fabric-implmentation = ["fabric-loader", "fabric-api", "fabric-kotlin"]

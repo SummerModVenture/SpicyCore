@@ -34,7 +34,7 @@ dependencies {
 
     modImplementation(libs.fabric.loader)
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2")
+    implementation(libs.kotlinx.serialization.core)
 
     testImplementation(platform("org.junit:junit-bom:5.7.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")

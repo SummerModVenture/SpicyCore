@@ -21,6 +21,12 @@
         "adapter": "kotlin",
         "value": "com.spicymemes.core.FabricMod"
       }
+    ],
+    "client": [
+      {
+        "adapter": "kotlin",
+        "value": "com.spicymemes.core.FabricClientMod"
+      }
     ]
   },
   "mixins": [
