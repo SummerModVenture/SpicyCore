@@ -2,6 +2,7 @@ package com.spicymemes.core
 
 import com.spicymemes.common.*
 import com.spicymemes.core.network.*
+import net.minecraft.core.*
 import net.minecraftforge.eventbus.api.*
 import net.minecraftforge.fml.*
 import net.minecraftforge.fml.common.*

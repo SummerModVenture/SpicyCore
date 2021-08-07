@@ -6,6 +6,7 @@ import java.time.format.*
 plugins {
     kotlin("jvm")
     id("net.minecraftforge.gradle")
+    kotlin("plugin.serialization")
     `maven-publish`
     signing
 }
@@ -24,17 +25,13 @@ sourceSets {
     apiSourceSet.apply {
         common.sourceSets.forEach { sourceSet ->
             compileClasspath += sourceSet.output
-            runtimeClasspath += sourceSet.output
         }
     }
     main {
         common.sourceSets.forEach { sourceSet ->
             compileClasspath += sourceSet.output
-            runtimeClasspath += sourceSet.output
         }
         compileClasspath += apiSourceSet.output
-        runtimeClasspath += apiSourceSet.output
-        //resources.srcDir(common.sourceSets.main.get().resources.srcDirs)
     }
 }
 
@@ -90,7 +87,6 @@ dependencies {
     library(kotlin("stdlib"))
 }
 
-//java.toolchain.languageVersion.set(JavaLanguageVersion.of(16))
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xopt-in=kotlin.contracts.ExperimentalContracts")
@@ -107,35 +103,29 @@ val jarConfig: Jar.() -> Unit = {
     duplicatesStrategy = DuplicatesStrategy.FAIL
     archiveVersion.set(compositeVersion)
 }
-
 tasks.jar {
     jarConfig()
-    common.sourceSets.forEach {
-        from(it.output)
-    }
+    from(common.sourceSets["api"].output)
+    from(common.sourceSets.main.get().output)
     from(apiSourceSet.output)
     manifest()
     finalizedBy("reobfJar")
 }
-
 val sourcesJar by tasks.registering(Jar::class) {
     jarConfig()
     archiveClassifier.set("sources")
-    from(sourceSets.main.get().allSource)
-    common.sourceSets.forEach {
-        from(it.allSource)
-    }
+    from(common.sourceSets["api"].allSource)
+    from(common.sourceSets.main.get().allSource)
     from(apiSourceSet.allSource)
+    from(sourceSets.main.get().allSource)
 }
-
 val deobfJar by tasks.registering(Jar::class) {
     jarConfig()
     archiveClassifier.set("deobf")
-    from(sourceSets.main.get().output)
-    common.sourceSets.forEach {
-        from(it.output)
-    }
+    from(common.sourceSets["api"].output)
+    from(common.sourceSets.main.get().output)
     from(apiSourceSet.output)
+    from(sourceSets.main.get().output)
     manifest()
 }
 
@@ -144,7 +134,6 @@ val apiJarConfig: Jar.() -> Unit = {
     archiveBaseName.set(apiArchivesBaseName)
     archiveVersion.set(compositeVersion)
 }
-
 val apiJar by tasks.registering(Jar::class) {
     apiJarConfig()
     from(common.sourceSets["api"].output)
@@ -152,14 +141,12 @@ val apiJar by tasks.registering(Jar::class) {
     manifest()
     finalizedBy("reobfApiJar")
 }
-
 val apiSourcesJar by tasks.registering(Jar::class) {
     apiJarConfig()
     archiveClassifier.set("sources")
     from(common.sourceSets["api"].allSource)
     from(apiSourceSet.allSource)
 }
-
 val apiDeobfJar by tasks.registering(Jar::class) {
     apiJarConfig()
     archiveClassifier.set("deobf")

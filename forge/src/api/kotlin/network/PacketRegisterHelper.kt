@@ -12,15 +12,15 @@ fun newSimpleChannel(version: String, modId: String, name: String = "main") = Ne
 )
 
 @Suppress("INACCESSIBLE_TYPE")
-inline fun <reified M : SpicyPacket> SimpleChannel.registerPacket(
+inline fun <reified M> SimpleChannel.registerPacket(
         id: Int,
-        handler: SpicyPacketHandler<M>
+        handler: ForgePacketHandler<M>
 ) {
     registerMessage(
             id,
             M::class.java,
-            { packet, buf -> handler.encode(packet, buf) },
-            { buf -> handler.decode(buf) },
+            { packet, buf -> encodeToByteBuf(packet, buf) },
+            { buf -> decodeFromByteBuf(buf) },
             { packet, ctx -> handler.handle(packet, ctx) }
     )
 }

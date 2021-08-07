@@ -3,7 +3,6 @@ package com.spicymemes.api
 import net.minecraft.core.*
 import net.minecraft.nbt.*
 import java.util.*
-import kotlin.NoSuchElementException
 import kotlin.properties.*
 import kotlin.reflect.*
 

@@ -11,7 +11,7 @@ object Network {
 
     fun registerPackets() {
         var id = 0
-        mainChannel.registerPacket(id++, PingClientPacket.Handler)
-        mainChannel.registerPacket(id++, ClientPresentPacket.Handler)
+        mainChannel.registerPacket(id++, PingClientPacketHandler)
+        mainChannel.registerPacket(id++, ClientPresentPacketHandler)
     }
 }

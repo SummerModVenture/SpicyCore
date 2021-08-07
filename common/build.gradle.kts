@@ -3,11 +3,16 @@ import org.jetbrains.kotlin.gradle.tasks.*
 plugins {
     kotlin("jvm")
     id("fabric-loom")
+    kotlin("plugin.serialization")
 }
 
 sourceSets {
     val api by creating
     main {
+        compileClasspath += api.output
+        runtimeClasspath += api.output
+    }
+    test {
         compileClasspath += api.output
         runtimeClasspath += api.output
     }
@@ -28,6 +33,18 @@ dependencies {
     mappings(loom.officialMojangMappings())
 
     modImplementation(libs.fabric.loader)
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2")
+
+    testImplementation(platform("org.junit:junit-bom:5.7.2"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+}
+
+tasks.test {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
 }
 
 val generateModInfo by tasks.registering {
@@ -52,7 +69,7 @@ tasks.compileKotlin {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
-        freeCompilerArgs = listOf("-Xopt-in=kotlin.contracts.ExperimentalContracts")
+        freeCompilerArgs = listOf("-Xopt-in=kotlin.contracts.ExperimentalContracts", "-Xopt-in=kotlin.RequiresOptIn")
         jvmTarget = "16"
     }
 }

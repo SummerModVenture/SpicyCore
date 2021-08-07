@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.*
 plugins {
     kotlin("jvm")
     id("fabric-loom")
+    kotlin("plugin.serialization")
     `maven-publish`
     signing
 }
@@ -46,11 +47,17 @@ configurations {
     }
 }
 
+repositories {
+    jcenter()
+}
+
 dependencies {
     minecraft(libs.fabric.minecraft)
     mappings(loom.officialMojangMappings())
 
     modImplementation(libs.bundles.fabric.implmentation)
+
+    modImplementation("com.lettuce.fudge:fabric-drawer:3.1.0")
 }
 
 tasks.withType<KotlinCompile> {
@@ -70,21 +77,17 @@ val jarConfig: Jar.() -> Unit = {
     duplicatesStrategy = DuplicatesStrategy.FAIL
     archiveVersion.set(compositeVersion)
 }
-
 tasks.jar {
     jarConfig()
-    common.sourceSets.forEach {
-        from(it.output.classesDirs)
-    }
+    from(common.sourceSets["api"].output)
+    from(common.sourceSets.main.get().output)
     from(apiSourceSet.output)
 }
-
 val sourcesJar by tasks.registering(Jar::class) {
     jarConfig()
     archiveClassifier.set("sources")
-    common.sourceSets.forEach {
-        from(it.allSource)
-    }
+    from(common.sourceSets["api"].allSource)
+    from(common.sourceSets.main.get().allSource)
     from(apiSourceSet.allSource)
     from(sourceSets.main.get().allSource)
 }
@@ -94,14 +97,12 @@ val apiJarConfig: Jar.() -> Unit = {
     archiveBaseName.set(apiArchivesBaseName)
     archiveVersion.set(compositeVersion)
 }
-
 val apiJar by tasks.registering(Jar::class) {
     apiJarConfig()
     dependsOn(tasks.remapJar)
     from(common.sourceSets["api"].output)
     from(apiSourceSet.output)
 }
-
 val apiSourcesJar by tasks.registering(Jar::class) {
     apiJarConfig()
     dependsOn(tasks.remapSourcesJar)
@@ -120,7 +121,6 @@ publishing {
             version = compositeVersion
             artifact(tasks.jar)
             artifact(sourcesJar)
-            //artifact(deobfJar)
         }
 
         register<MavenPublication>("api") {
@@ -128,7 +128,6 @@ publishing {
             version = compositeVersion
             artifact(apiJar)
             artifact(apiSourcesJar)
-            //artifact(apiDeobfJar)
         }
     }
 
