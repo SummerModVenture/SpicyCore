@@ -1,9 +1,7 @@
 package com.spicymemes.api.extensions
 
 import net.minecraft.core.*
-import kotlin.math.abs
-import kotlin.math.pow
-import kotlin.math.sqrt
+import kotlin.math.*
 
 fun BlockPos.distance(other: BlockPos): Double {
     return sqrt((x-other.x.toDouble()).pow(2) + (y-other.y.toDouble()).pow(2) + (z-other.z.toDouble()).pow(2))

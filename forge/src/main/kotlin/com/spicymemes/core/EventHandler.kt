@@ -4,7 +4,7 @@ import com.spicymemes.common.*
 import com.spicymemes.common.network.*
 import com.spicymemes.core.network.*
 import net.minecraft.server.level.*
-import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent
+import net.minecraftforge.event.entity.player.PlayerEvent.*
 import net.minecraftforge.eventbus.api.*
 import net.minecraftforge.fml.common.*
 import net.minecraftforge.fmllegacy.network.*

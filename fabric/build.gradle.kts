@@ -22,9 +22,9 @@ minecraft {}
 val apiSourceSet = sourceSets.create("api")
 sourceSets {
     apiSourceSet.apply {
-        common.sourceSets.forEach { sourceSet ->
-            compileClasspath += sourceSet.output
-            runtimeClasspath += sourceSet.output
+        common.sourceSets["api"].also { commonApi ->
+            compileClasspath += commonApi.output
+            runtimeClasspath += commonApi.output
         }
     }
     main {
@@ -40,15 +40,8 @@ sourceSets {
 
 configurations {
     named(apiSourceSet.implementationConfigurationName) {
-        extendsFrom(implementation.get())
+        extendsFrom(compileClasspath.get())
     }
-    named(apiSourceSet.runtimeOnlyConfigurationName) {
-        extendsFrom(runtimeOnly.get())
-    }
-}
-
-repositories {
-    jcenter()
 }
 
 dependencies {
@@ -56,8 +49,6 @@ dependencies {
     mappings(loom.officialMojangMappings())
 
     modImplementation(libs.bundles.fabric.implmentation)
-
-    modImplementation("com.lettuce.fudge:fabric-drawer:3.1.0")
 }
 
 tasks.withType<KotlinCompile> {

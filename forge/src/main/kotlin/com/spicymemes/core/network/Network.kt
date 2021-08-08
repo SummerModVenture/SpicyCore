@@ -2,7 +2,6 @@ package com.spicymemes.core.network
 
 import com.spicymemes.api.network.*
 import com.spicymemes.common.*
-import com.spicymemes.core.*
 import net.minecraftforge.fmllegacy.network.simple.*
 
 object Network {

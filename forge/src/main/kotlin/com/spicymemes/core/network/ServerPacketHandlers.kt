@@ -2,8 +2,7 @@ package com.spicymemes.core.network
 
 import com.spicymemes.api.network.*
 import com.spicymemes.common.*
-import com.spicymemes.common.network.ClientPresentPacket
-import com.spicymemes.core.*
+import com.spicymemes.common.network.*
 import net.minecraftforge.fmllegacy.network.*
 import java.time.*
 

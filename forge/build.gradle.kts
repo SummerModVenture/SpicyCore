@@ -23,8 +23,8 @@ val isRelease: Boolean by rootProject.ext
 val apiSourceSet = sourceSets.create("api")
 sourceSets {
     apiSourceSet.apply {
-        common.sourceSets.forEach { sourceSet ->
-            compileClasspath += sourceSet.output
+        common.sourceSets["api"].also { commonApi ->
+            compileClasspath += commonApi.output
         }
     }
     main {
