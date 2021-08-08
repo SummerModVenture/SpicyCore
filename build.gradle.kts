@@ -23,14 +23,10 @@ allprojects {
 }
 
 tasks.jar {
-    duplicatesStrategy = DuplicatesStrategy.FAIL
+    duplicatesStrategy = DuplicatesStrategy.WARN
     archiveVersion.set(compositeVersion)
-    from(
-        subprojects
-            .flatMap { it.sourceSets }
-            .filter { it.name != "test" }
-            .map { it.output }
-    )
+    from(projects.fabric.dependencyProject.tasks.jar)
+    from(projects.forge.dependencyProject.tasks.jar)
 }
 
 publishing {

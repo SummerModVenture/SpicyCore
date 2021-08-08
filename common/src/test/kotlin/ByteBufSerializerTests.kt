@@ -1,5 +1,4 @@
-
-import com.spicymemes.api.serialization.*
+import com.spicymemes.core.api.serialization.*
 import kotlinx.serialization.*
 import org.junit.jupiter.api.*
 import java.nio.charset.*

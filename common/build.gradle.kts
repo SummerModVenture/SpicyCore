@@ -52,9 +52,9 @@ val generateModInfo by tasks.registering {
     val modId: String by rootProject
     val modName: String by rootProject
     doLast {
-        mkdir("src/main/generated")
-        file("src/main/generated/ModInfo.kt").writeText("""
-            package com.spicymemes.common
+        mkdir("src/main/generated/com/spicymemes/core/common")
+        file("src/main/generated/com/spicymemes/core/common/ModInfo.kt").writeText("""
+            package com.spicymemes.core.common
             
             const val MOD_ID = "$modId"
             const val MOD_NAME = "$modName"
