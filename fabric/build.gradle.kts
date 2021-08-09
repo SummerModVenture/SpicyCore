@@ -117,7 +117,7 @@ afterEvaluate {
             register<MavenPublication>("mod") {
                 artifactId = base.archivesName.get()
                 version = compositeVersion
-                artifact(tasks.jar) {
+                artifact(tasks.jar.get().archiveFile) {
                     builtBy(tasks.remapJar)
                 }
                 artifact(sourcesJar) {
