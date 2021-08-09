@@ -9,7 +9,7 @@ import net.minecraftforge.fml.event.lifecycle.*
 
 @Mod(MOD_ID)
 @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-class ForgeMod {
+class ForgeEntrypoint {
 
     init {
         ModLoadingContext.get().also { context ->

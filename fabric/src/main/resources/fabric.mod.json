@@ -19,13 +19,13 @@
     "main": [
       {
         "adapter": "kotlin",
-        "value": "com.spicymemes.core.fabric.FabricMod"
+        "value": "com.spicymemes.core.fabric.FabricEntrypoint"
       }
     ],
     "client": [
       {
         "adapter": "kotlin",
-        "value": "com.spicymemes.core.fabric.FabricClientMod"
+        "value": "com.spicymemes.core.fabric.FabricEntrypoint"
       }
     ]
   },

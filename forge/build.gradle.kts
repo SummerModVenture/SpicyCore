@@ -190,26 +190,6 @@ publishing {
             artifact(apiDeobfJar)
         }
     }
-
-    repositories {
-        val mavenUsername: String? by project
-        val mavenPassword: String? by project
-        if (mavenUsername != null && mavenPassword != null) {
-            maven {
-                if (isRelease) {
-                    name = "Releases"
-                    url = uri("https://maven.masterzach32.net/artifactory/minecraft-releases/")
-                } else {
-                    name = "Snapshots"
-                    url = uri("https://maven.masterzach32.net/artifactory/minecraft-snapshots/")
-                }
-                credentials {
-                    username = mavenUsername
-                    password = mavenPassword
-                }
-            }
-        }
-    }
 }
 
 signing {

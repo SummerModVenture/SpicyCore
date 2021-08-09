@@ -16,8 +16,33 @@ ext["isRelease"] = !version.toString().endsWith("-SNAPSHOT")
 val isRelease: Boolean by ext
 
 allprojects {
+    apply(plugin = "maven-publish")
+    apply(plugin = "signing")
+
     repositories {
         mavenCentral()
+    }
+
+    publishing {
+        repositories {
+            val mavenUsername: String? by project
+            val mavenPassword: String? by project
+            if (mavenUsername != null && mavenPassword != null) {
+                maven {
+                    if (isRelease) {
+                        name = "Releases"
+                        url = uri("https://maven.masterzach32.net/artifactory/minecraft-releases/")
+                    } else {
+                        name = "Snapshots"
+                        url = uri("https://maven.masterzach32.net/artifactory/minecraft-snapshots/")
+                    }
+                    credentials {
+                        username = mavenUsername
+                        password = mavenPassword
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -38,26 +63,6 @@ publishing {
             artifactId = base.archivesName.get()
             version = compositeVersion
             artifact(tasks.jar)
-        }
-    }
-
-    repositories {
-        val mavenUsername: String? by project
-        val mavenPassword: String? by project
-        if (mavenUsername != null && mavenPassword != null) {
-            maven {
-                if (isRelease) {
-                    name = "Releases"
-                    url = uri("https://maven.masterzach32.net/artifactory/minecraft-releases/")
-                } else {
-                    name = "Snapshots"
-                    url = uri("https://maven.masterzach32.net/artifactory/minecraft-snapshots/")
-                }
-                credentials {
-                    username = mavenUsername
-                    password = mavenPassword
-                }
-            }
         }
     }
 }

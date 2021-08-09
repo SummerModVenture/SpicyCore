@@ -21,5 +21,3 @@ enableFeaturePreview("VERSION_CATALOGS")
 include("common")
 include("fabric")
 include("forge")
-
-rootProject.name = "SpicyCore"

@@ -4,17 +4,23 @@ plugins {
     kotlin("jvm")
     id("fabric-loom")
     kotlin("plugin.serialization")
+    `maven-publish`
+    signing
 }
 
+base.archivesName.set("${findProperty("archivesBaseName")}-api")
+val compositeVersion: String by rootProject.ext
+val isRelease: Boolean by rootProject.ext
+
+val apiSourceSet = sourceSets.create("api")
 sourceSets {
-    val api by creating
     main {
-        compileClasspath += api.output
-        runtimeClasspath += api.output
+        compileClasspath += apiSourceSet.output
+        runtimeClasspath += apiSourceSet.output
     }
     test {
-        compileClasspath += api.output
-        runtimeClasspath += api.output
+        compileClasspath += apiSourceSet.output
+        runtimeClasspath += apiSourceSet.output
     }
 }
 
@@ -74,14 +80,46 @@ tasks.withType<KotlinCompile> {
     }
 }
 
-tasks.jar {
-    enabled = false
+val apiJarConfig: Jar.() -> Unit = {
+    duplicatesStrategy = DuplicatesStrategy.FAIL
+    archiveVersion.set(compositeVersion)
+}
+val apiJar by tasks.registering(Jar::class) {
+    apiJarConfig()
+    dependsOn(tasks.remapJar)
+    from(apiSourceSet.output)
+}
+val sourcesJar by tasks.registering(Jar::class) {
+    apiJarConfig()
+    archiveClassifier.set("sources")
+    from(apiSourceSet.allSource)
+}
+tasks.assemble {
+    dependsOn(apiJar, sourcesJar)
 }
 
-tasks.remapJar {
-    enabled = false
+publishing {
+    publications {
+        register<MavenPublication>("api") {
+            artifactId = base.archivesName.get()
+            version = compositeVersion
+            artifact(apiJar) {
+                builtBy(tasks.remapJar)
+            }
+            artifact(sourcesJar) {
+                builtBy(tasks.remapSourcesJar)
+            }
+        }
+    }
 }
 
-tasks.remapSourcesJar {
-    enabled = false
+signing {
+    val signingKey: String? by project
+    val signingPassword: String? by project
+    useInMemoryPgpKeys(signingKey, signingPassword)
+    sign(publishing.publications["api"])
+}
+
+tasks.withType<Sign>().configureEach {
+    onlyIf { isRelease }
 }
