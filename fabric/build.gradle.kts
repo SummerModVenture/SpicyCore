@@ -44,11 +44,16 @@ configurations {
     }
 }
 
+repositories {
+    maven("https://maven.terraformersmc.com/releases/")
+}
+
 dependencies {
     minecraft(libs.fabric.minecraft)
     mappings(loom.officialMojangMappings())
 
     modImplementation(libs.bundles.fabric.implmentation)
+    modRuntime(libs.fabric.modmenu)
 }
 
 tasks.withType<KotlinCompile> {
@@ -106,48 +111,52 @@ tasks.assemble {
     dependsOn(sourcesJar, apiJar, apiSourcesJar)
 }
 
-publishing {
-    publications {
-        register<MavenPublication>("mod") {
-            version = compositeVersion
-            artifact(tasks.jar)
-            artifact(sourcesJar)
+afterEvaluate {
+    publishing {
+        publications {
+            register<MavenPublication>("mod") {
+                artifactId = base.archivesName.get()
+                version = compositeVersion
+                artifact(tasks.jar)
+                artifact(tasks.remapJar)
+                artifact(sourcesJar)
+            }
+
+            register<MavenPublication>("api") {
+                artifactId = apiArchivesBaseName
+                version = compositeVersion
+                artifact(apiJar)
+                artifact(apiSourcesJar)
+            }
         }
 
-        register<MavenPublication>("api") {
-            artifactId = apiArchivesBaseName
-            version = compositeVersion
-            artifact(apiJar)
-            artifact(apiSourcesJar)
-        }
-    }
-
-    repositories {
-        val mavenUsername: String? by project
-        val mavenPassword: String? by project
-        if (mavenUsername != null && mavenPassword != null) {
-            maven {
-                if (isRelease) {
-                    name = "Releases"
-                    url = uri("https://maven.masterzach32.net/artifactory/minecraft-releases/")
-                } else {
-                    name = "Snapshots"
-                    url = uri("https://maven.masterzach32.net/artifactory/minecraft-snapshots/")
-                }
-                credentials {
-                    username = mavenUsername
-                    password = mavenPassword
+        repositories {
+            val mavenUsername: String? by project
+            val mavenPassword: String? by project
+            if (mavenUsername != null && mavenPassword != null) {
+                maven {
+                    if (isRelease) {
+                        name = "Releases"
+                        url = uri("https://maven.masterzach32.net/artifactory/minecraft-releases/")
+                    } else {
+                        name = "Snapshots"
+                        url = uri("https://maven.masterzach32.net/artifactory/minecraft-snapshots/")
+                    }
+                    credentials {
+                        username = mavenUsername
+                        password = mavenPassword
+                    }
                 }
             }
         }
     }
-}
 
-signing {
-    val signingKey: String? by project
-    val signingPassword: String? by project
-    useInMemoryPgpKeys(signingKey, signingPassword)
-    sign(publishing.publications["mod"], publishing.publications["api"])
+    signing {
+        val signingKey: String? by project
+        val signingPassword: String? by project
+        useInMemoryPgpKeys(signingKey, signingPassword)
+        sign(publishing.publications["mod"], publishing.publications["api"])
+    }
 }
 
 tasks.withType<Sign>().configureEach {

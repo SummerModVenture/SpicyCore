@@ -18,20 +18,24 @@ val isRelease: Boolean by ext
 allprojects {
     repositories {
         mavenCentral()
-        maven("https://maven.minecraftforge.net")
     }
 }
 
 tasks.jar {
-    duplicatesStrategy = DuplicatesStrategy.WARN
+    val fabricJar = projects.fabric.dependencyProject.tasks.named("remapJar")
+    val forgeJar = projects.forge.dependencyProject.tasks.jar
+    dependsOn(fabricJar, forgeJar)
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    archiveBaseName.set(base.archivesName.get())
     archiveVersion.set(compositeVersion)
-    from(projects.fabric.dependencyProject.tasks.jar)
-    from(projects.forge.dependencyProject.tasks.jar)
+    from(fabricJar.map { zipTree(it.outputs.files.singleFile) }.get())
+    from(forgeJar.map { zipTree(it.outputs.files.singleFile) }.get())
 }
 
 publishing {
     publications {
         register<MavenPublication>("mod") {
+            artifactId = base.archivesName.get()
             version = compositeVersion
             artifact(tasks.jar)
         }

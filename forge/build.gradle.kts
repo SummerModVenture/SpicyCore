@@ -48,6 +48,10 @@ configurations {
     }
 }
 
+repositories {
+    maven("https://maven.minecraftforge.net")
+}
+
 minecraft {
     mappings("official", libs.versions.mappings.get())
 
@@ -171,6 +175,7 @@ reobf {
 publishing {
     publications {
         register<MavenPublication>("mod") {
+            artifactId = base.archivesName.get()
             version = compositeVersion
             artifact(tasks.jar)
             artifact(sourcesJar)

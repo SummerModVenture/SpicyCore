@@ -11,11 +11,11 @@ import java.time.*
 object FabricMod : ModInitializer {
 
     override fun onInitialize() {
-        ServerLoginConnectionEvents.INIT.register { handler, server ->
-            ServerLoginNetworking.registerGlobalReceiver(ClientPresentPacket.identifier) { server, handler, understood, buf, synchronizer, responseSender ->
+        ServerLoginNetworking.registerGlobalReceiver(ClientPresentPacket.identifier) { server, handler, understood, buf, synchronizer, responseSender ->
+            if (understood) {
                 val packet: ClientPresentPacket = decodeFromByteBuf(buf)
                 SpicyCoreLogger.info(
-                    "Received response from client, SpicyCore is present! Client took " +
+                    "Received response from client, $MOD_NAME is present! Client took " +
                         "${Instant.now().toEpochMilli() - packet.timestamp} ms to respond."
                 )
             }
