@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "package": "com.spicymemes.core.mixins",
+  "compatibilityLevel": "JAVA_16",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": []
+}

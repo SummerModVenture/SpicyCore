@@ -1,6 +1,8 @@
 pluginManagement {
     repositories {
+        mavenCentral()
         gradlePluginPortal()
+        maven("https://maven.fabricmc.net")
         maven("https://maven.minecraftforge.net")
     }
 
@@ -12,3 +14,12 @@ pluginManagement {
         }
     }
 }
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+enableFeaturePreview("VERSION_CATALOGS")
+
+include("common")
+include("fabric")
+include("forge")
+
+rootProject.name = "SpicyCore"
