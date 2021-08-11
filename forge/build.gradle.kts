@@ -89,6 +89,7 @@ dependencies {
     minecraft(libs.forge.minecraft)
 
     library(kotlin("stdlib"))
+    library(libs.kotlinx.serialization.core)
 }
 
 tasks.withType<KotlinCompile> {
@@ -99,12 +100,14 @@ tasks.withType<KotlinCompile> {
 }
 
 tasks.processResources {
+    duplicatesStrategy = DuplicatesStrategy.FAIL
     inputs.property("version", project.version)
     filesMatching("META-INF/mods.toml") { expand("version" to project.version) }
+    from(common.sourceSets.main.get().resources)
 }
 
 val jarConfig: Jar.() -> Unit = {
-    duplicatesStrategy = DuplicatesStrategy.FAIL
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     archiveVersion.set(compositeVersion)
 }
 tasks.jar {
@@ -134,7 +137,7 @@ val deobfJar by tasks.registering(Jar::class) {
 }
 
 val apiJarConfig: Jar.() -> Unit = {
-    duplicatesStrategy = DuplicatesStrategy.FAIL
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     archiveBaseName.set(apiArchivesBaseName)
     archiveVersion.set(compositeVersion)
 }

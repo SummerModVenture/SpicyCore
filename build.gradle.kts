@@ -47,14 +47,14 @@ allprojects {
 }
 
 tasks.jar {
-    val fabricJar = projects.fabric.dependencyProject.tasks.named("remapJar")
-    val forgeJar = projects.forge.dependencyProject.tasks.jar
+    val fabricJar = projects.fabric.dependencyProject.tasks["remapJar"]
+    val forgeJar = projects.forge.dependencyProject.tasks.jar.get()
     dependsOn(fabricJar, forgeJar)
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     archiveBaseName.set(base.archivesName.get())
     archiveVersion.set(compositeVersion)
-    from(fabricJar.map { zipTree(it.outputs.files.singleFile) }.get())
-    from(forgeJar.map { zipTree(it.outputs.files.singleFile) }.get())
+    from(zipTree(fabricJar.outputs.files.singleFile))
+    from(zipTree(forgeJar.outputs.files.singleFile))
 }
 
 publishing {

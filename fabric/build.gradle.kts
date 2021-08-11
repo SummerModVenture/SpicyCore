@@ -67,10 +67,11 @@ tasks.processResources {
     duplicatesStrategy = DuplicatesStrategy.FAIL
     inputs.property("version", project.version)
     filesMatching("fabric.mod.json") { expand("version" to project.version) }
+    from(common.sourceSets.main.get().resources)
 }
 
 val jarConfig: Jar.() -> Unit = {
-    duplicatesStrategy = DuplicatesStrategy.FAIL
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     archiveVersion.set(compositeVersion)
 }
 tasks.jar {
@@ -89,7 +90,7 @@ val sourcesJar by tasks.registering(Jar::class) {
 }
 
 val apiJarConfig: Jar.() -> Unit = {
-    duplicatesStrategy = DuplicatesStrategy.FAIL
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     archiveBaseName.set(apiArchivesBaseName)
     archiveVersion.set(compositeVersion)
 }
