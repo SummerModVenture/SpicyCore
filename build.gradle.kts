@@ -3,6 +3,7 @@ plugins {
     kotlin("jvm") version "1.5.21" apply false
     id("fabric-loom") version "0.9.+" apply false
     id("net.minecraftforge.gradle") version "5.1.+" apply false
+    id("com.github.masterzach32.artifactory") version "0.2.2" apply false
     kotlin("plugin.serialization") version "1.5.21" apply false
     id("net.researchgate.release") version "2.8.1"
     `java-library`
@@ -10,8 +11,8 @@ plugins {
 }
 
 base.archivesName.set(findProperty("archivesBaseName").toString())
-ext["compositeVersion"] = "${libs.versions.minecraft.get()}-$version"
-val compositeVersion: String by ext
+ext["fullVersion"] = "${libs.versions.minecraft.get()}-$version"
+val fullVersion: String by ext
 ext["isRelease"] = !version.toString().endsWith("-SNAPSHOT")
 val isRelease: Boolean by ext
 
@@ -52,7 +53,7 @@ tasks.jar {
     dependsOn(fabricJar, forgeJar)
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     archiveBaseName.set(base.archivesName.get())
-    archiveVersion.set(compositeVersion)
+    archiveVersion.set(fullVersion)
     from(zipTree(fabricJar.outputs.files.singleFile))
     from(zipTree(forgeJar.outputs.files.singleFile))
 }
@@ -61,7 +62,7 @@ publishing {
     publications {
         register<MavenPublication>("mod") {
             artifactId = base.archivesName.get()
-            version = compositeVersion
+            version = fullVersion
             artifact(tasks.jar)
         }
     }
