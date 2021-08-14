@@ -48,8 +48,7 @@ forge {
 dependencies {
     minecraft(libs.forge.minecraft)
 
-    library(kotlin("stdlib"))
-    library(libs.kotlinx.serialization.core)
+    implementation(libs.kotlinx.serialization.core)
 }
 
 tasks.withType<KotlinCompile> {
