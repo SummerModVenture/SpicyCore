@@ -59,6 +59,14 @@ tasks.withType<KotlinCompile> {
     }
 }
 
+tasks.jar {
+    manifest()
+}
+
+tasks.apiJar {
+    manifest()
+}
+
 signing {
     val signingKey: String? by project
     val signingPassword: String? by project

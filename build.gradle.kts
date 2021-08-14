@@ -3,10 +3,10 @@ plugins {
     kotlin("jvm") version "1.5.21" apply false
     id("fabric-loom") version "0.9.+" apply false
     id("net.minecraftforge.gradle") version "5.1.+" apply false
-    id("com.github.masterzach32.artifactory") version "0.2.2" apply false
+    id("com.github.masterzach32.artifactory") version "0.2.21" apply false
     kotlin("plugin.serialization") version "1.5.21" apply false
     id("net.researchgate.release") version "2.8.1"
-    `java-library`
+    base
     `maven-publish`
 }
 
@@ -47,26 +47,32 @@ allprojects {
     }
 }
 
-tasks.jar {
-    val fabricJar = projects.fabric.dependencyProject.tasks["remapJar"]
-    val forgeJar = projects.forge.dependencyProject.tasks.jar.get()
-    dependsOn(fabricJar, forgeJar)
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    archiveBaseName.set(base.archivesName.get())
-    archiveVersion.set(fullVersion)
-    from(zipTree(fabricJar.outputs.files.singleFile))
-    from(zipTree(forgeJar.outputs.files.singleFile))
-}
-
-publishing {
-    publications {
-        register<MavenPublication>("mod") {
-            artifactId = base.archivesName.get()
-            version = fullVersion
-            artifact(tasks.jar)
-        }
-    }
-}
+//val multiTargetJar by tasks.registering(Jar::class) {
+//    val fabricProject = projects.fabric.dependencyProject
+//    val forgeProject = projects.forge.dependencyProject
+//    dependsOn(fabricProject.tasks.build, forgeProject.tasks.build)
+//    val fabricJar = fabricProject.tasks["remapJar"]
+//    val forgeJar = forgeProject.tasks["jar"]
+//    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+//    archiveBaseName.set(base.archivesName.get())
+//    archiveVersion.set(fullVersion)
+//    from(zipTree(fabricJar.outputs.files.singleFile))
+//    from(zipTree(forgeJar.outputs.files.singleFile))
+//}
+//
+//tasks.assemble {
+//    dependsOn(multiTargetJar)
+//}
+//
+//publishing {
+//    publications {
+//        register<MavenPublication>("mod") {
+//            artifactId = base.archivesName.get()
+//            version = fullVersion
+//            artifact(multiTargetJar)
+//        }
+//    }
+//}
 
 release {
     preTagCommitMessage = "Release version"

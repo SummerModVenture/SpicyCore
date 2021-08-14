@@ -16,8 +16,6 @@ kotlin.sourceSets.main {
     kotlin.srcDir("src/main/generated")
 }
 
-minecraft {}
-
 dependencies {
     minecraft(libs.fabric.minecraft)
     mappings(loom.officialMojangMappings())
