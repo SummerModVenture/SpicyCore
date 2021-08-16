@@ -10,8 +10,6 @@ plugins {
     signing
 }
 
-val isRelease: Boolean by rootProject.ext
-
 kotlin.sourceSets.main {
     kotlin.srcDir("src/main/generated")
 }
@@ -19,8 +17,6 @@ kotlin.sourceSets.main {
 dependencies {
     minecraft(libs.fabric.minecraft)
     mappings(loom.officialMojangMappings())
-
-    modImplementation(libs.fabric.loader)
 
     implementation(libs.kotlinx.serialization.core)
 
@@ -51,12 +47,5 @@ tasks.withType<KotlinCompile> {
 }
 
 signing {
-    val signingKey: String? by project
-    val signingPassword: String? by project
-    useInMemoryPgpKeys(signingKey, signingPassword)
     sign(publishing.publications["api"])
-}
-
-tasks.withType<Sign>().configureEach {
-    onlyIf { isRelease }
 }

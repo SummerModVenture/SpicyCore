@@ -1,20 +1,18 @@
-
 plugins {
     kotlin("jvm") version "1.5.21" apply false
     id("fabric-loom") version "0.9.+" apply false
     id("net.minecraftforge.gradle") version "5.1.+" apply false
-    id("com.github.masterzach32.artifactory") version "0.2.21" apply false
+    id("com.github.masterzach32.artifactory") version "0.3.1" apply false
     kotlin("plugin.serialization") version "1.5.21" apply false
     id("net.researchgate.release") version "2.8.1"
     base
     `maven-publish`
+    signing
 }
 
 base.archivesName.set(findProperty("archivesBaseName").toString())
-ext["fullVersion"] = "${libs.versions.minecraft.get()}-$version"
-val fullVersion: String by ext
-ext["isRelease"] = !version.toString().endsWith("-SNAPSHOT")
-val isRelease: Boolean by ext
+val archivesVersion: String by ext("${libs.versions.minecraft.get()}-$version")
+val isRelease: Boolean by ext(!version.toString().endsWith("-SNAPSHOT"))
 
 allprojects {
     apply(plugin = "maven-publish")
@@ -44,6 +42,16 @@ allprojects {
                 }
             }
         }
+    }
+
+    signing {
+        val signingKey: String? by project
+        val signingPassword: String? by project
+        useInMemoryPgpKeys(signingKey, signingPassword)
+    }
+
+    tasks.withType<Sign>().configureEach {
+        onlyIf { isRelease }
     }
 }
 

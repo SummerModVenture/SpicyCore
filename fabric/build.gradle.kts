@@ -9,8 +9,6 @@ plugins {
     signing
 }
 
-val isRelease: Boolean by rootProject.ext
-
 repositories {
     maven("https://maven.terraformersmc.com/releases/")
 }
@@ -31,12 +29,5 @@ tasks.withType<KotlinCompile> {
 }
 
 signing {
-    val signingKey: String? by project
-    val signingPassword: String? by project
-    useInMemoryPgpKeys(signingKey, signingPassword)
     sign(publishing.publications["mod"], publishing.publications["api"])
-}
-
-tasks.withType<Sign>().configureEach {
-    onlyIf { isRelease }
 }

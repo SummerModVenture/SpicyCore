@@ -1,6 +1,7 @@
 import com.spicymemes.core.api.serialization.*
 import kotlinx.serialization.*
 import org.junit.jupiter.api.*
+import org.junit.jupiter.api.Assertions.*
 import java.nio.charset.*
 
 class ByteBufSerializerTests {
@@ -19,10 +20,10 @@ class ByteBufSerializerTests {
 
         val buf = encodeToByteBuf(testPacket)
 
-        assert(buf.readCharSequence(buf.readInt(), Charset.defaultCharset()) == name)
-        assert(buf.readInt() == age)
-        assert(buf.readBoolean() == state)
-        assert(buf.readByte().toInt() == 0)
+        assertEquals(buf.readCharSequence(buf.readInt(), Charset.defaultCharset()), name)
+        assertEquals(buf.readInt(), age)
+        assertEquals(buf.readBoolean(), state)
+        assertEquals(buf.readByte().toInt(), 0)
     }
 
     @Test
@@ -37,9 +38,9 @@ class ByteBufSerializerTests {
 
         val packet: TestPacket = decodeFromByteBuf(buf)
 
-        assert(packet.name == name)
-        assert(packet.age == age)
-        assert(packet.state == state)
-        assert(packet.nullable == null)
+        assertEquals(packet.name, name)
+        assertEquals(packet.age, age)
+        assertEquals(packet.state, state)
+        assertEquals(packet.nullable, null)
     }
 }
