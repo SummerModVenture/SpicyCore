@@ -10,10 +10,6 @@ plugins {
     signing
 }
 
-kotlin.sourceSets.main {
-    kotlin.srcDir("src/main/generated")
-}
-
 dependencies {
     minecraft(libs.fabric.minecraft)
     mappings(loom.officialMojangMappings())
@@ -31,12 +27,8 @@ tasks.test {
     }
 }
 
-val generateModInfo by tasks.registering(GenerateModInfo::class) {
-    location.set("com.spicymemes.core.common")
-}
-
-tasks.compileKotlin {
-    dependsOn(generateModInfo)
+val generateModInfo by tasks.registering(GenerateKotlinModInfo::class) {
+    `package`.set("com.spicymemes.core.common")
 }
 
 tasks.withType<KotlinCompile> {
