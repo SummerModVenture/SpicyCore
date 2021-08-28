@@ -9,8 +9,8 @@ plugins {
     signing
 }
 
-val archivesVersion: String by ext
-val isRelease: Boolean by ext
+val archivesVersion: String by rootProject.ext
+val isRelease: Boolean by rootProject.ext
 
 repositories {
     maven("https://maven.terraformersmc.com/releases/")

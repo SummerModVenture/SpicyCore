@@ -13,8 +13,8 @@ plugins {
 }
 
 val common = projects.common.dependencyProject
-val archivesVersion: String by ext
-val isRelease: Boolean by ext
+val archivesVersion: String by rootProject.ext
+val isRelease: Boolean by rootProject.ext
 
 minecraft {
     mappings("official", libs.versions.mappings.get())
