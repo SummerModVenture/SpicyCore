@@ -2,7 +2,7 @@ plugins {
     kotlin("jvm") version "1.5.21" apply false
     id("fabric-loom") version "0.9.+" apply false
     id("net.minecraftforge.gradle") version "5.1.+" apply false
-    id("com.github.masterzach32.artifactory") version "0.3.5" apply false
+    id("com.github.masterzach32.artifactory") version "0.3.6" apply false
     kotlin("plugin.serialization") version "1.5.21" apply false
     id("net.researchgate.release") version "2.8.1"
     base

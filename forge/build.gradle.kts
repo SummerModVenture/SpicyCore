@@ -42,12 +42,20 @@ minecraft {
 
 forge {
     applyForgeMissingLibsTempfix()
+    applyInvalidModuleNameFix()
+}
+
+repositories {
+    maven("https://dvs1.progwml6.com/files/maven/")
+    maven("https://modmaven.k-4u.nl")
 }
 
 dependencies {
     minecraft(libs.forge.minecraft)
 
     implementation(libs.kotlinx.serialization.core)
+
+    obfRuntimeOnly("mezz.jei:jei-1.17.1:8.0.0.14")
 }
 
 tasks.withType<KotlinCompile> {

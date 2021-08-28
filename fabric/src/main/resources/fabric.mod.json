@@ -12,7 +12,7 @@
     "issues": "https://github.com/SummerModVenture/SpicyCore/issues",
     "sources": "https://github.com/SummerModVenture/SpicyCore"
   },
-  "license": "All rights reserved",
+  "license": "LGPLv3",
   "icon": "assets/spicycore/icon.png",
   "environment": "*",
   "entrypoints": {
