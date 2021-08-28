@@ -5,6 +5,7 @@ plugins {
     id("com.github.masterzach32.artifactory") version "0.3.6" apply false
     kotlin("plugin.serialization") version "1.5.21" apply false
     id("net.researchgate.release") version "2.8.1"
+    id("com.modrinth.minotaur") version "1.2.1"
     base
     `maven-publish`
     signing

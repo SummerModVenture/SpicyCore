@@ -13,6 +13,8 @@ plugins {
 }
 
 val common = projects.common.dependencyProject
+val archivesVersion: String by ext
+val isRelease: Boolean by ext
 
 minecraft {
     mappings("official", libs.versions.mappings.get())
@@ -71,6 +73,26 @@ tasks.jar {
 
 tasks.apiJar {
     manifest()
+}
+
+val publishModrinth by tasks.registering(com.modrinth.minotaur.TaskModrinthUpload::class) {
+    dependsOn(tasks.build)
+    val modrinthProjectId: String? by project
+    val modrinthToken: String? by project
+    onlyIf { isRelease && modrinthProjectId != null && modrinthToken != null }
+
+    token = modrinthToken
+    projectId = modrinthProjectId
+
+    versionName = archivesVersion
+    versionNumber = "${archivesVersion}-forge"
+    uploadFile = tasks.jar.get()
+    addGameVersion(libs.versions.minecraft.get())
+    addLoader("forge")
+}
+
+tasks.publish {
+    dependsOn(publishModrinth)
 }
 
 signing {

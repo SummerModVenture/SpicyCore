@@ -70,3 +70,4 @@ jobs:
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.signing_password }}
           ORG_GRADLE_PROJECT_mavenUsername: ${{ secrets.maven_username }}
           ORG_GRADLE_PROJECT_mavenPassword: ${{ secrets.maven_password }}
+          ORG_GRADLE_PROJECT_modrinthToken: ${{ secrets.modrinth_token }}
