@@ -6,6 +6,7 @@ fabric-api = "0.39.2+1.17"
 fabric-kotlin = "1.6.3+kotlin.1.5.21"
 fabric-modmenu = "2.0.4"
 forge = "1.17.1-37.0.31"
+forge-jei = "8.0.0.14"
 kotlinx-serialization = "1.2.2"
 
 [libraries]
@@ -13,10 +14,13 @@ fabric-minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" 
 fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
 fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api" }
 fabric-kotlin = { module = "net.fabricmc:fabric-language-kotlin", version.ref = "fabric-kotlin" }
+fabric-modmenu = { module = "com.terraformersmc:modmenu", version.ref = "fabric-modmenu" }
+
 forge-minecraft = { module = "net.minecraftforge:forge", version.ref = "forge" }
+forge-jei = { module = "mezz.jei:jei-1.17.1", version.ref = "forge-jei" }
+
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
-fabric-modmenu = { module = "com.terraformersmc:modmenu", version.ref = "fabric-modmenu" }
 
 [bundles]
 fabric-implmentation = ["fabric-loader", "fabric-api", "fabric-kotlin"]

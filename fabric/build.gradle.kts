@@ -5,6 +5,7 @@ plugins {
     id("fabric-loom")
     id("com.github.masterzach32.artifactory")
     kotlin("plugin.serialization")
+    id("com.modrinth.minotaur")
     `maven-publish`
     signing
 }

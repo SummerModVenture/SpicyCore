@@ -8,6 +8,7 @@ plugins {
     id("net.minecraftforge.gradle")
     id("com.github.masterzach32.artifactory")
     kotlin("plugin.serialization")
+    id("com.modrinth.minotaur")
     `maven-publish`
     signing
 }
