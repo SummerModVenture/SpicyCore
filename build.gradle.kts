@@ -21,6 +21,7 @@ allprojects {
 
     repositories {
         mavenCentral()
+        maven("https://maven.masterzach32.net/artifactory/minecraft/")
     }
 
     publishing {
