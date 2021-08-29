@@ -48,17 +48,12 @@ forge {
     applyInvalidModuleNameFix()
 }
 
-repositories {
-    maven("https://dvs1.progwml6.com/files/maven/")
-    maven("https://modmaven.k-4u.nl")
-}
-
 dependencies {
     minecraft(libs.forge.minecraft)
 
     implementation(libs.kotlinx.serialization.core)
 
-    obfRuntimeOnly(libs.forge.jei)
+//    obfRuntimeOnly(libs.forge.jei)
 }
 
 tasks.withType<KotlinCompile> {

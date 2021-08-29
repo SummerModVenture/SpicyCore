@@ -13,10 +13,6 @@ plugins {
 val archivesVersion: String by rootProject.ext
 val isRelease: Boolean by rootProject.ext
 
-repositories {
-    maven("https://maven.terraformersmc.com/releases/")
-}
-
 dependencies {
     minecraft(libs.fabric.minecraft)
     mappings(loom.officialMojangMappings())
