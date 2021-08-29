@@ -58,7 +58,7 @@ dependencies {
 
     implementation(libs.kotlinx.serialization.core)
 
-    obfRuntimeOnly("mezz.jei:jei-1.17.1:8.0.0.14")
+    obfRuntimeOnly(libs.forge.jei)
 }
 
 tasks.withType<KotlinCompile> {
