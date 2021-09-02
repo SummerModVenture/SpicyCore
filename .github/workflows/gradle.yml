@@ -33,37 +33,19 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-mc1.17-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
-            ${{ runner.os }}-mc1.17-gradle-
+            ${{ runner.os }}-gradle-
       - name: Set up JDK ${{ matrix.java }}
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
           java-version: ${{ matrix.java }}
-      - name: Build with Gradle
+      - run: chmod +x gradlew
+      - name: Build and Test Project
         run: ./gradlew build
-  publish:
-    name: Publish Artifacts
-    runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request'
-    needs: build
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-mc1.17-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-mc1.17-gradle-
-      - name: Set up JDK
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'adopt'
-          java-version: 16
-      - name: Build and Publish Artifacts
+      - name: Publish Artifacts
+        if: github.event_name != 'pull_request'
         run: ./gradlew -x test publish
         env:
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.signing_key }}
