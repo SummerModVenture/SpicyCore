@@ -1,8 +1,10 @@
-import com.spicymemes.core.api.serialization.*
-import kotlinx.serialization.*
-import org.junit.jupiter.api.*
-import org.junit.jupiter.api.Assertions.*
-import java.nio.charset.*
+import com.spicymemes.core.api.serialization.bufferedPacket
+import com.spicymemes.core.api.serialization.decodeFromByteBuf
+import com.spicymemes.core.api.serialization.encodeToByteBuf
+import kotlinx.serialization.Serializable
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
+import java.nio.charset.Charset
 
 class ByteBufSerializerTests {
 

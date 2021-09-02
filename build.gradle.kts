@@ -2,7 +2,7 @@ plugins {
     kotlin("jvm") version "1.5.21" apply false
     id("fabric-loom") version "0.9.+" apply false
     id("net.minecraftforge.gradle") version "5.1.+" apply false
-    id("com.github.masterzach32.artifactory") version "0.3.7" apply false
+    id("com.github.masterzach32.artifactory") version "0.4-SNAPSHOT" apply false
     kotlin("plugin.serialization") version "1.5.21" apply false
     id("net.researchgate.release") version "2.8.1"
     id("com.modrinth.minotaur") version "1.2.1" apply false
@@ -54,6 +54,15 @@ allprojects {
 
     tasks.withType<Sign>().configureEach {
         onlyIf { isRelease }
+    }
+}
+
+subprojects {
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions {
+            freeCompilerArgs = listOf("-Xopt-in=kotlin.contracts.ExperimentalContracts", "-Xopt-in=kotlin.RequiresOptIn")
+            jvmTarget = "16"
+        }
     }
 }
 

@@ -1,10 +1,10 @@
 package com.spicymemes.core.api
 
-import net.minecraft.core.*
+import net.minecraft.core.BlockPos
 import net.minecraft.nbt.*
 import java.util.*
-import kotlin.properties.*
-import kotlin.reflect.*
+import kotlin.properties.ReadOnlyProperty
+import kotlin.reflect.KProperty
 
 fun CompoundTag.putBlockPos(key: String, pos: BlockPos) {
     putLong(key, pos.asLong())

@@ -1,5 +1,4 @@
-import com.spicymemes.artifactory.tasks.*
-import org.jetbrains.kotlin.gradle.tasks.*
+import com.spicymemes.artifactory.tasks.GenerateKotlinModInfo
 
 plugins {
     kotlin("jvm")
@@ -29,13 +28,6 @@ tasks.test {
 
 val generateModInfo by tasks.registering(GenerateKotlinModInfo::class) {
     `package`.set("com.spicymemes.core.common")
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xopt-in=kotlin.contracts.ExperimentalContracts", "-Xopt-in=kotlin.RequiresOptIn")
-        jvmTarget = "16"
-    }
 }
 
 signing {

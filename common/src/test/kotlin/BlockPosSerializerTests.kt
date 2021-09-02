@@ -1,10 +1,13 @@
 @file:UseSerializers(BlockPosSerializer::class)
 
-import com.spicymemes.core.api.serialization.*
-import kotlinx.serialization.*
-import net.minecraft.core.*
-import org.junit.jupiter.api.*
-import org.junit.jupiter.api.Assertions.*
+import com.spicymemes.core.api.serialization.BlockPosSerializer
+import com.spicymemes.core.api.serialization.decodeFromByteBuf
+import com.spicymemes.core.api.serialization.encodeToByteBuf
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.UseSerializers
+import net.minecraft.core.BlockPos
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 
 class BlockPosSerializerTests {
 

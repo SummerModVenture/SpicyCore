@@ -1,7 +1,8 @@
 package com.spicymemes.core.forge.api.config
 
-import net.minecraftforge.common.*
-import kotlin.contracts.*
+import net.minecraftforge.common.ForgeConfigSpec
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 
 @DslMarker
 annotation class ConfigDsl

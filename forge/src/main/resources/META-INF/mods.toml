@@ -1,29 +1,29 @@
-modLoader="javafml"
-loaderVersion="[37,)"
-license="LGPLv3"
+modLoader = "javafml"
+loaderVersion = "[37,)"
+license = "LGPLv3"
 
 [[mods]]
 
-modId="spicycore"
-version="${version}"
-displayName="Spicy Core"
-credits="Dank memes"
-authors="vtsman, came20, ninjabou, tacoguy56, masterzach32"
-description='''
+modId = "spicycore"
+version = "${version}"
+displayName = "Spicy Core"
+credits = "Dank memes"
+authors = "vtsman, came20, ninjabou, tacoguy56, masterzach32"
+description = '''
 	The spiciest core.
 '''
 
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.spicycore]]
-modId="forge"
-mandatory=true
-versionRange="[37.0.31,)"
-ordering="NONE"
-side="BOTH"
+modId = "forge"
+mandatory = true
+versionRange = "[37.0.51,)"
+ordering = "NONE"
+side = "BOTH"
 
 [[dependencies.spicycore]]
-modId="minecraft"
-mandatory=true
-versionRange="[1.17,)"
-ordering="NONE"
-side="BOTH"
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.17,)"
+ordering = "NONE"
+side = "BOTH"

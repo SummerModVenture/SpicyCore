@@ -1,7 +1,7 @@
 package com.spicymemes.core.forge.api.network
 
-import net.minecraftforge.fmllegacy.network.*
-import java.util.function.*
+import net.minecraftforge.fmllegacy.network.NetworkEvent
+import java.util.function.Supplier
 
 interface ForgePacketHandler<M> {
 

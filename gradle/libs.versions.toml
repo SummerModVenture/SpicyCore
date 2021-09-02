@@ -5,7 +5,7 @@ fabric-loader = "0.11.6"
 fabric-api = "0.39.2+1.17"
 fabric-kotlin = "1.6.3+kotlin.1.5.21"
 fabric-modmenu = "2.0.4"
-forge = "1.17.1-37.0.31"
+forge = "1.17.1-37.0.51"
 forge-jei = "8.0.0.14"
 kotlinx-serialization = "1.2.2"
 

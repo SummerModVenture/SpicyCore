@@ -1,7 +1,7 @@
 package com.spicymemes.core.forge.api.extensions
 
-import net.minecraft.world.item.*
-import net.minecraftforge.items.*
+import net.minecraft.world.item.ItemStack
+import net.minecraftforge.items.IItemHandler
 
 fun IItemHandler.insert(stack: ItemStack, simulate: Boolean = false): ItemStack {
     var remainder = stack

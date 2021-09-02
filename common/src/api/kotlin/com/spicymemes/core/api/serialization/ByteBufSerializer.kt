@@ -2,13 +2,19 @@
 
 package com.spicymemes.core.api.serialization
 
-import io.netty.buffer.*
-import kotlinx.serialization.*
-import kotlinx.serialization.descriptors.*
-import kotlinx.serialization.encoding.*
-import kotlinx.serialization.modules.*
-import net.minecraft.network.*
-import java.nio.charset.*
+import io.netty.buffer.Unpooled
+import kotlinx.serialization.DeserializationStrategy
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.SerializationStrategy
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.AbstractDecoder
+import kotlinx.serialization.encoding.AbstractEncoder
+import kotlinx.serialization.encoding.CompositeDecoder
+import kotlinx.serialization.encoding.CompositeEncoder
+import kotlinx.serialization.modules.EmptySerializersModule
+import kotlinx.serialization.serializer
+import net.minecraft.network.FriendlyByteBuf
+import java.nio.charset.Charset
 
 fun <T> encodeToByteBuf(serializer: SerializationStrategy<T>, value: T): FriendlyByteBuf {
     val encoder = ByteBufEncoder()

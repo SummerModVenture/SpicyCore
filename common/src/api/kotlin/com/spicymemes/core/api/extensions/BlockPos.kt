@@ -1,10 +1,12 @@
 package com.spicymemes.core.api.extensions
 
-import net.minecraft.core.*
-import kotlin.math.*
+import net.minecraft.core.BlockPos
+import kotlin.math.abs
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 fun BlockPos.distance(other: BlockPos): Double {
-    return sqrt((x-other.x.toDouble()).pow(2) + (y-other.y.toDouble()).pow(2) + (z-other.z.toDouble()).pow(2))
+    return sqrt((x - other.x.toDouble()).pow(2) + (y - other.y.toDouble()).pow(2) + (z - other.z.toDouble()).pow(2))
 }
 
 fun BlockPos.horSquaredDistance(other: BlockPos): Int {
@@ -13,28 +15,28 @@ fun BlockPos.horSquaredDistance(other: BlockPos): Int {
 
 fun BlockPos.getBlocksWithin(range: Int): Sequence<BlockPos> {
     return BlockPos.betweenClosed(x - range, y - range, z - range, x + range, y + range, z + range)
-            .map { it.immutable() }
-            .asSequence()
+        .map { it.immutable() }
+        .asSequence()
 }
 
 fun BlockPos.getBlocksWithinMutable(range: Int): Sequence<BlockPos> {
     return BlockPos.betweenClosed(x - range, y - range, z - range, x + range, y + range, z + range)
-            .asSequence()
+        .asSequence()
 }
 
 fun BlockPos.getBlocksWithinHorizontal(range: Int): Sequence<BlockPos> {
     return BlockPos.betweenClosed(x - range, y, z - range, x + range, y, z + range)
-            .map { it.immutable() }
-            .asSequence()
+        .map { it.immutable() }
+        .asSequence()
 }
 
 fun BlockPos.getBlocksWithinTopCone(range: Int): Sequence<BlockPos> {
     return BlockPos.betweenClosed(x - range, y, z - range, x + range, y + range, z + range)
-            .map { it.immutable() }
-            .asSequence()
+        .map { it.immutable() }
+        .asSequence()
 }
 
 fun BlockPos.getBlocksWithinTopConeMutable(range: Int): Sequence<BlockPos> {
     return BlockPos.betweenClosed(x - range, y, z - range, x + range, y + range, z + range)
-            .asSequence()
+        .asSequence()
 }

@@ -1,8 +1,10 @@
 package com.spicymemes.core.forge.api
 
-import net.minecraftforge.fml.*
-import net.minecraftforge.fml.util.thread.*
-import kotlin.contracts.*
+import net.minecraftforge.fml.LogicalSide
+import net.minecraftforge.fml.ModList
+import net.minecraftforge.fml.util.thread.EffectiveSide
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 
 inline fun serverOnly(action: () -> Unit) {
     contract { callsInPlace(action, InvocationKind.AT_MOST_ONCE) }

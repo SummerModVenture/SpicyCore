@@ -1,6 +1,6 @@
 package com.spicymemes.core.api.network
 
-import net.minecraft.resources.*
+import net.minecraft.resources.ResourceLocation
 
 interface PacketIdentifier {
 

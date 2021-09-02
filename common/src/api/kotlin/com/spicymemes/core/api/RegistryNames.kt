@@ -1,9 +1,10 @@
 package com.spicymemes.core.api
 
-import net.minecraft.core.*
-import net.minecraft.resources.*
-import net.minecraft.world.item.*
-import net.minecraft.world.level.block.*
+import net.minecraft.core.Registry
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.block.Block
 
 val Block.registryName: ResourceLocation
     get() = Registry.BLOCK.getKey(this)

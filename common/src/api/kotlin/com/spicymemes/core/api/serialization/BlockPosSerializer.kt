@@ -1,9 +1,13 @@
 package com.spicymemes.core.api.serialization
 
-import kotlinx.serialization.*
-import kotlinx.serialization.descriptors.*
-import kotlinx.serialization.encoding.*
-import net.minecraft.core.*
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializer
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import net.minecraft.core.BlockPos
 
 @OptIn(ExperimentalSerializationApi::class)
 @Serializer(forClass = BlockPos::class)

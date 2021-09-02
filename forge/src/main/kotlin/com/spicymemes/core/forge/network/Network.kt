@@ -1,8 +1,9 @@
 package com.spicymemes.core.forge.network
 
-import com.spicymemes.core.common.*
-import com.spicymemes.core.forge.api.network.*
-import net.minecraftforge.fmllegacy.network.simple.*
+import com.spicymemes.core.common.MOD_ID
+import com.spicymemes.core.forge.api.network.newSimpleChannel
+import com.spicymemes.core.forge.api.network.registerPacket
+import net.minecraftforge.fmllegacy.network.simple.SimpleChannel
 
 object Network {
 

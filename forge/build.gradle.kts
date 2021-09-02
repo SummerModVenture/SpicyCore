@@ -1,7 +1,6 @@
-import net.minecraftforge.gradle.common.util.*
-import org.jetbrains.kotlin.gradle.tasks.*
-import java.time.*
-import java.time.format.*
+import net.minecraftforge.gradle.common.util.RunConfig
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 plugins {
     kotlin("jvm")
@@ -53,14 +52,7 @@ dependencies {
 
     implementation(libs.kotlinx.serialization.core)
 
-//    obfRuntimeOnly(libs.forge.jei)
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xopt-in=kotlin.contracts.ExperimentalContracts")
-        jvmTarget = "16"
-    }
+    obfRuntimeOnly(libs.forge.jei)
 }
 
 tasks.jar {

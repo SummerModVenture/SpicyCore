@@ -1,9 +1,10 @@
 package com.spicymemes.core.forge.network
 
-import com.spicymemes.core.common.*
-import com.spicymemes.core.common.network.*
-import com.spicymemes.core.forge.api.network.*
-import net.minecraftforge.fmllegacy.network.*
+import com.spicymemes.core.common.SpicyCoreLogger
+import com.spicymemes.core.common.network.ClientPresentPacket
+import com.spicymemes.core.common.network.PingClientPacket
+import com.spicymemes.core.forge.api.network.ForgePacketHandler
+import net.minecraftforge.fmllegacy.network.NetworkEvent
 
 object PingClientPacketHandler : ForgePacketHandler<PingClientPacket> {
 

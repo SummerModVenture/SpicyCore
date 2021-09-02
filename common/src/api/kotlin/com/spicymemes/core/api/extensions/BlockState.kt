@@ -1,8 +1,9 @@
 package com.spicymemes.core.api.extensions
 
-import net.minecraft.world.level.block.*
-import net.minecraft.world.level.block.state.*
-import net.minecraft.world.level.block.state.properties.*
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.Property
 
 val StateDefinition<Block, BlockState>.defaultState: BlockState
     get() = any()

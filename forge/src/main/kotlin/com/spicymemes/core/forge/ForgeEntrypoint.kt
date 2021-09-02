@@ -1,10 +1,11 @@
 package com.spicymemes.core.forge
 
-import com.spicymemes.core.common.*
-import com.spicymemes.core.forge.network.*
-import net.minecraftforge.eventbus.api.*
-import net.minecraftforge.fml.*
-import net.minecraftforge.fml.common.*
+import com.spicymemes.core.common.MOD_ID
+import com.spicymemes.core.forge.network.Network
+import net.minecraftforge.eventbus.api.SubscribeEvent
+import net.minecraftforge.fml.ModContainer
+import net.minecraftforge.fml.ModLoadingContext
+import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.*
 
 @Mod(MOD_ID)
@@ -20,6 +21,7 @@ class ForgeEntrypoint {
     companion object {
 
         lateinit var container: ModContainer
+
         @SubscribeEvent
         @JvmStatic
         fun setupCommon(event: FMLCommonSetupEvent) {
@@ -28,22 +30,27 @@ class ForgeEntrypoint {
 
         @SubscribeEvent
         @JvmStatic
-        fun setupClient(event: FMLClientSetupEvent) {}
+        fun setupClient(event: FMLClientSetupEvent) {
+        }
 
         @SubscribeEvent
         @JvmStatic
-        fun setupServer(event: FMLDedicatedServerSetupEvent) {}
+        fun setupServer(event: FMLDedicatedServerSetupEvent) {
+        }
 
         @SubscribeEvent
         @JvmStatic
-        fun enqueueIMC(event: InterModEnqueueEvent) {}
+        fun enqueueIMC(event: InterModEnqueueEvent) {
+        }
 
         @SubscribeEvent
         @JvmStatic
-        fun processIMC(event: InterModProcessEvent) {}
+        fun processIMC(event: InterModProcessEvent) {
+        }
 
         @SubscribeEvent
         @JvmStatic
-        fun setupComplete(event: FMLLoadCompleteEvent) {}
+        fun setupComplete(event: FMLLoadCompleteEvent) {
+        }
     }
 }
